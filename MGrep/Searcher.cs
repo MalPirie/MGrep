@@ -34,15 +34,18 @@ public sealed class Searcher
     {
         var counter = new ProgressCounter();
         var searchBlock = MakeSearchBlock(counter);
-        foreach (var file in fileFilter.Execute())
-        {
-            searchBlock.Post(file);
-        }
 
-        searchBlock.Complete();
+        var listBlock = new TransformManyBlock<IFileFilter, string>(ExecuteFileFilter);
+        listBlock.LinkTo(searchBlock, new DataflowLinkOptions
+        {
+            PropagateCompletion = true
+        });
+        listBlock.Post(fileFilter);
+        listBlock.Complete();
 
         using var p = new PeriodicTimer(TimeSpan.FromSeconds(1));
         var pt = p.WaitForNextTickAsync(cancellationToken).AsTask();
+
         await using var i = searchBlock.ReceiveAllAsync(cancellationToken).GetAsyncEnumerator(cancellationToken);
         var it = i.MoveNextAsync().AsTask();
         while (!cancellationToken.IsCancellationRequested)
@@ -54,7 +57,7 @@ public sealed class Searcher
                 {
                     break;
                 }
-                
+
                 yield return i.Current;
                 it = i.MoveNextAsync().AsTask();
             }
@@ -68,6 +71,18 @@ public sealed class Searcher
         counter.SetState(cancellationToken.IsCancellationRequested ? SearchState.Cancelled : SearchState.Completed);
 
         progress.Report(counter.ForProgress());
+
+        // If the MoveNextAsync is still running, then the DisposeAsync will throw NotSupportedException,
+        // so wait for it to complete.
+        await it;
+    }
+
+    private static IEnumerable<string> ExecuteFileFilter(IFileFilter fileFilter)
+    {
+        foreach (var file in fileFilter.Execute())
+        {
+            yield return file;
+        }
     }
 
     private TransformBlock<string, List<Match>> MakeSearchBlock(ProgressCounter counter) =>

@@ -8,12 +8,14 @@
         d:DataContext="{d:DesignInstance local:MainWindowViewModel, IsDesignTimeCreatable=True}"
         d:DesignHeight="450"
         d:DesignWidth="800"
+        x:Name="Window"
         Title="MGrep" 
         Height="450" 
         Width="800">
 
     <Window.Resources>
         <local:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        <local:FileNameConverter x:Key="FileNameConverter" />
     </Window.Resources>
         
     <DockPanel LastChildFill="True">
@@ -116,6 +118,22 @@
                                     <GridViewColumn Header="Text" DisplayMemberBinding="{Binding Text}" />
                                 </GridView>
                             </ListView.View>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="ToolTip">
+                                        <Setter.Value>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <MultiBinding Converter="{StaticResource FileNameConverter}">
+                                                        <Binding Path="FileName" />
+                                                        <Binding Path="DataContext.Folder" Source="{x:Reference Window}"/>
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListView.ItemContainerStyle>
                         </ListView>
 
                         <TextBlock x:Name="EmptyList" Text="No matches found" Visibility="Collapsed"/>
