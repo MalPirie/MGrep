@@ -10,4 +10,4 @@ public enum SearchState
     Faulted
 }
 
-public readonly record struct SearchProgress(int FileCount, int FileIgnoreCount, int FileMatchCount, int MatchCount, SearchState State, TimeSpan Elapsed);
+public readonly record struct SearchProgress(int FileCount, int FileIgnoreCount, int FileMatchCount, int ErrorCount, int MatchCount, SearchState State, TimeSpan Elapsed);

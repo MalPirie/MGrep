@@ -58,7 +58,11 @@ public sealed class Searcher
                     break;
                 }
 
-                yield return i.Current;
+                if (i.Current.Count > 0)
+                {
+                    yield return i.Current;
+                }
+
                 it = i.MoveNextAsync().AsTask();
             }
             else if (t == pt && pt.IsCompletedSuccessfully)
@@ -72,8 +76,8 @@ public sealed class Searcher
 
         progress.Report(counter.ForProgress());
 
-        // If the MoveNextAsync is still running, then the DisposeAsync will throw NotSupportedException,
-        // so wait for it to complete.
+        // If the MoveNextAsync is still running, for example after a cancellation, then the DisposeAsync will
+        // throw NotSupportedException, so wait for it to complete.
         await it;
     }
 
@@ -89,30 +93,38 @@ public sealed class Searcher
         new(file =>
         {
             var matches = new List<Match>();
-            counter.IncrementFileCount();
-            if (IsTextFile(file, out var encoding) || includeBinaryFiles)
+            try
             {
-                var lineCount = 0;
-                var matchedAtLeastOnce = false;
-                foreach (var line in fileSystem.File.ReadLines(file, encoding))
+                counter.IncrementFileCount();
+                if (IsTextFile(file, out var encoding) || includeBinaryFiles)
                 {
-                    lineCount++;
-                    if (filter.IsMatch(line))
+                    var lineCount = 0;
+                    var matchedAtLeastOnce = false;
+                    foreach (var line in fileSystem.File.ReadLines(file, encoding))
                     {
-                        counter.IncrementMatchCount();
-                        if (!matchedAtLeastOnce)
+                        lineCount++;
+                        if (filter.IsMatch(line))
                         {
-                            counter.IncrementFileMatchCount();
-                            matchedAtLeastOnce = true;
-                        }
+                            counter.IncrementMatchCount();
+                            if (!matchedAtLeastOnce)
+                            {
+                                counter.IncrementFileMatchCount();
+                                matchedAtLeastOnce = true;
+                            }
 
-                        matches.Add(new Match(file, lineCount, line));
+                            matches.Add(new Match(file, lineCount, line));
+                        }
                     }
                 }
+                else
+                {
+                    counter.IncrementFileIgnoreCount();
+                }
+
             }
-            else
+            catch
             {
-                counter.IncrementFileIgnoreCount();
+                counter.IncrementErrorCount();
             }
 
             return matches;
@@ -159,6 +171,7 @@ public sealed class Searcher
         private int fileCount;
         private int fileIgnoreCount;
         private int fileMatchCount;
+        private int errorCount;
         private int matchCount;
         private SearchState state = SearchState.Searching;
         private DateTime completed = DateTime.MinValue;
@@ -166,6 +179,7 @@ public sealed class Searcher
         public void IncrementFileCount() => Interlocked.Increment(ref fileCount);
         public void IncrementFileIgnoreCount() => Interlocked.Increment(ref fileIgnoreCount);
         public void IncrementFileMatchCount() => Interlocked.Increment(ref fileMatchCount);
+        public void IncrementErrorCount() => Interlocked.Increment(ref errorCount);
         public void IncrementMatchCount() => Interlocked.Increment(ref matchCount);
 
         public void SetState(SearchState newState)
@@ -178,6 +192,7 @@ public sealed class Searcher
         }
 
         public SearchProgress ForProgress()  => 
-            new(fileCount, fileIgnoreCount, fileMatchCount, matchCount, state, (completed == DateTime.MinValue ? DateTime.UtcNow : completed) - started);
+            new(fileCount, fileIgnoreCount, fileMatchCount, errorCount, matchCount, state,
+                (completed == DateTime.MinValue ? DateTime.UtcNow : completed) - started);
     }
 }
