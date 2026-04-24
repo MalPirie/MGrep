@@ -15,11 +15,20 @@
         Background="{DynamicResource BrushBackground}">
 
     <WindowChrome.WindowChrome>
+        <!-- CaptionHeight matches the title-bar Grid height.
+             ResizeBorderThickness and CornerRadius use system defaults.
+             DWM rounded corners are applied in OnSourceInitialized via DwmSetWindowAttribute. -->
         <WindowChrome CaptionHeight="32"
-                      GlassFrameThickness="0"
-                      ResizeBorderThickness="4"
-                      CornerRadius="0" />
+                      GlassFrameThickness="0" />
     </WindowChrome.WindowChrome>
+
+    <!-- SystemCommands require explicit CommandBindings when using a custom WindowChrome. -->
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}"    Executed="CloseWindow" />
+        <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}" Executed="MinimizeWindow" />
+        <CommandBinding Command="{x:Static SystemCommands.MaximizeWindowCommand}" Executed="MaximizeWindow" />
+        <CommandBinding Command="{x:Static SystemCommands.RestoreWindowCommand}"  Executed="RestoreWindow" />
+    </Window.CommandBindings>
 
     <Window.Resources>
         <local:InvertedBoolConverter x:Key="InvertedBoolConverter" />
@@ -38,65 +47,64 @@
               Background="{DynamicResource BrushSurface}">
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 
-                <!-- Theme toggle -->
-                <Button ToolTip="Toggle Light / Dark theme">
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource CaptionButtonStyle}">
-                            <Setter Property="Content">
-                                <Setter.Value>
-                                    <TextBlock Text="☀" FontSize="14" />
-                                </Setter.Value>
-                            </Setter>
-                            <Setter Property="Command" Value="{Binding ToggleThemeCommand}" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsDarkMode}" Value="True">
-                                    <Setter Property="Content">
-                                        <Setter.Value>
-                                            <TextBlock Text="🌙" FontSize="13" />
-                                        </Setter.Value>
-                                    </Setter>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
+                <!-- Theme toggle — Segoe MDL2: E793 = Brightness (sun), E708 = QuietHours (moon) -->
+                <Button Style="{StaticResource CaptionButtonStyle}"
+                        WindowChrome.IsHitTestVisibleInChrome="True"
+                        Command="{Binding ToggleThemeCommand}"
+                        ToolTip="Toggle Light / Dark theme">
+                    <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="12">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Text" Value="&#xE793;" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsDarkMode}" Value="True">
+                                        <Setter Property="Text" Value="&#xE708;" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
                 </Button>
 
                 <!-- Minimize -->
                 <Button Style="{StaticResource CaptionButtonStyle}"
-                        Command="{x:Static SystemCommands.MinimizeWindowCommand}"
-                        CommandParameter="{Binding ElementName=Window}">
+                        WindowChrome.IsHitTestVisibleInChrome="True"
+                        Command="{x:Static SystemCommands.MinimizeWindowCommand}">
                     <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="10" Text="&#xE108;" />
                 </Button>
 
-                <!-- Maximize / Restore -->
-                <Button CommandParameter="{Binding ElementName=Window}">
+                <!-- Maximize / Restore — command and icon switch via WindowState -->
+                <Button WindowChrome.IsHitTestVisibleInChrome="True">
                     <Button.Style>
                         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource CaptionButtonStyle}">
                             <Setter Property="Command" Value="{x:Static SystemCommands.MaximizeWindowCommand}" />
-                            <Setter Property="Content">
-                                <Setter.Value>
-                                    <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="10" Text="&#xE739;" />
-                                </Setter.Value>
-                            </Setter>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding ElementName=Window, Path=WindowState}"
                                              Value="Maximized">
                                     <Setter Property="Command" Value="{x:Static SystemCommands.RestoreWindowCommand}" />
-                                    <Setter Property="Content">
-                                        <Setter.Value>
-                                            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="10" Text="&#xE923;" />
-                                        </Setter.Value>
-                                    </Setter>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
+                    <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="10">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Text" Value="&#xE739;" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Window, Path=WindowState}"
+                                                 Value="Maximized">
+                                        <Setter Property="Text" Value="&#xE923;" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
                 </Button>
 
                 <!-- Close -->
                 <Button Style="{StaticResource CaptionCloseButtonStyle}"
-                        Command="{x:Static SystemCommands.CloseWindowCommand}"
-                        CommandParameter="{Binding ElementName=Window}">
+                        WindowChrome.IsHitTestVisibleInChrome="True"
+                        Command="{x:Static SystemCommands.CloseWindowCommand}">
                     <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="10" Text="&#xE106;" />
                 </Button>
 
