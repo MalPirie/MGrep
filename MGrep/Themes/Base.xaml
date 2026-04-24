@@ -38,6 +38,8 @@
     <CornerRadius x:Key="CornerRadiusMedium">4</CornerRadius>
     <CornerRadius x:Key="CornerRadiusLarge">8</CornerRadius>
     <CornerRadius x:Key="CornerRadiusXLarge">16</CornerRadius>
+    <!-- Bottom-only rounding for footer bars (matches Windows 11 window chrome) -->
+    <CornerRadius x:Key="CornerRadiusStatusBar">0,0,8,8</CornerRadius>
 
     <!-- ── Spacing ──────────────────────────────────────────────── -->
     <sys:Double x:Key="SpacingXS">2</sys:Double>

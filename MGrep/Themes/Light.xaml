@@ -51,9 +51,9 @@
     <SolidColorBrush x:Key="BrushInfo"                Color="{StaticResource MillimanOcean}" />
 
     <!-- ── Shell chrome ────────────────────────────────────────────── -->
-    <!-- StatusBar uses Obsidian (dark navy) in light mode per Milliman brand -->
-    <SolidColorBrush x:Key="BrushStatusBar"           Color="{StaticResource MillimanObsidian}" />
-    <SolidColorBrush x:Key="BrushStatusBarText"       Color="{StaticResource MillimanWhite}" />
+    <!-- StatusBar uses a subtle grey close to the window background in light mode -->
+    <SolidColorBrush x:Key="BrushStatusBar"           Color="{StaticResource MillimanLighterGray}" />
+    <SolidColorBrush x:Key="BrushStatusBarText"       Color="{StaticResource MillimanObsidian}" />
 
     <!--
     ════════════════════════════════════════════════════════════════════════

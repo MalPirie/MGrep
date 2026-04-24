@@ -112,8 +112,7 @@
             </Grid>
         </Grid>
 
-        <StatusBar DockPanel.Dock="Bottom"
-                   Background="{DynamicResource BrushStatusBar}">
+        <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
                 <TextBlock Text="{Binding Status}"
                            Foreground="{DynamicResource BrushStatusBarText}" />
