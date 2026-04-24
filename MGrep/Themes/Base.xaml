@@ -1,0 +1,60 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!--
+    ╔══════════════════════════════════════════════════════════════╗
+    ║  BASE TOKENS                                                 ║
+    ║  Cross-theme structural values: typography, spacing,        ║
+    ║  corner radii, border thickness, animation durations.       ║
+    ║                                                              ║
+    ║  ❌  NO COLORS HERE. Colors live in Light.xaml / Dark.xaml.  ║
+    ╚══════════════════════════════════════════════════════════════╝
+    -->
+
+    <!-- ── Typography ─────────────────────────────────────────────
+         Segoe UI Variable Text ships on Windows 11.
+         Segoe UI is the Win10 fallback. sans-serif is the last resort.
+    ──────────────────────────────────────────────────────────────── -->
+    <FontFamily x:Key="FontFamilyBase">Segoe UI Variable Text, Segoe UI, sans-serif</FontFamily>
+    <FontFamily x:Key="FontFamilyMono">Cascadia Mono, Consolas, Courier New, monospace</FontFamily>
+
+    <sys:Double x:Key="FontSizeXSmall">11</sys:Double>
+    <sys:Double x:Key="FontSizeSmall">12</sys:Double>
+    <sys:Double x:Key="FontSizeBody">14</sys:Double>
+    <sys:Double x:Key="FontSizeBodyLarge">16</sys:Double>
+    <sys:Double x:Key="FontSizeSubtitle">20</sys:Double>
+    <sys:Double x:Key="FontSizeTitle">28</sys:Double>
+    <sys:Double x:Key="FontSizeLargeTitle">40</sys:Double>
+
+    <FontWeight x:Key="FontWeightRegular">Normal</FontWeight>
+    <FontWeight x:Key="FontWeightSemiBold">SemiBold</FontWeight>
+    <FontWeight x:Key="FontWeightBold">Bold</FontWeight>
+
+    <!-- ── Corner Radii ────────────────────────────────────────── -->
+    <CornerRadius x:Key="CornerRadiusNone">0</CornerRadius>
+    <CornerRadius x:Key="CornerRadiusSmall">2</CornerRadius>
+    <CornerRadius x:Key="CornerRadiusMedium">4</CornerRadius>
+    <CornerRadius x:Key="CornerRadiusLarge">8</CornerRadius>
+    <CornerRadius x:Key="CornerRadiusXLarge">16</CornerRadius>
+
+    <!-- ── Spacing ──────────────────────────────────────────────── -->
+    <sys:Double x:Key="SpacingXS">2</sys:Double>
+    <sys:Double x:Key="SpacingS">4</sys:Double>
+    <sys:Double x:Key="SpacingM">8</sys:Double>
+    <sys:Double x:Key="SpacingL">12</sys:Double>
+    <sys:Double x:Key="SpacingXL">16</sys:Double>
+    <sys:Double x:Key="SpacingXXL">24</sys:Double>
+
+    <!-- ── Border Thickness ────────────────────────────────────── -->
+    <Thickness x:Key="BorderThicknessNone">0</Thickness>
+    <Thickness x:Key="BorderThicknessDefault">1</Thickness>
+    <Thickness x:Key="BorderThicknessFocus">2</Thickness>
+
+    <!-- ── Animation Durations ─────────────────────────────────── -->
+    <Duration x:Key="DurationFast">0:0:0.083</Duration>
+    <Duration x:Key="DurationNormal">0:0:0.167</Duration>
+    <Duration x:Key="DurationSlow">0:0:0.333</Duration>
+
+</ResourceDictionary>

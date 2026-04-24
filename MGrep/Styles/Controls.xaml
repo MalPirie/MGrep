@@ -1,0 +1,31 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+    ╔══════════════════════════════════════════════════════════════════════╗
+    ║  APP-LEVEL CONTROL STYLES                                            ║
+    ║                                                                      ║
+    ║  All styles reference semantic tokens (BrushXxx) only.              ║
+    ║  WPF-UI ControlsDictionary provides the base Fluent 2 templates;    ║
+    ║  these styles extend or supplement them for app-specific needs.      ║
+    ║                                                                      ║
+    ║  RULES:                                                              ║
+    ║    ✅  Use {DynamicResource BrushXxx} for all colour references.     ║
+    ║    ✅  Use BasedOn to extend WPF-UI styles rather than replace them.  ║
+    ║    ❌  No literal colour values.                                      ║
+    ║    ❌  No MillimanXxx keys.                                           ║
+    ║    ❌  No StaticResource for theme-sensitive brushes.                 ║
+    ╚══════════════════════════════════════════════════════════════════════╝
+    -->
+
+    <!--
+        StatusBarItem — ensure text colour follows the theme.
+        StatusBar.Background is set directly on the element in MainWindow.xaml.
+    -->
+    <Style TargetType="{x:Type StatusBarItem}"
+           BasedOn="{StaticResource {x:Type StatusBarItem}}">
+        <Setter Property="Foreground" Value="{DynamicResource BrushStatusBarText}" />
+    </Style>
+
+</ResourceDictionary>

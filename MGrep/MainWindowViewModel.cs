@@ -45,19 +45,23 @@ public sealed partial class MainWindowViewModel : ObservableObject
 
     [ObservableProperty] private string status = "Ready";
 
+    [ObservableProperty] private bool isDarkMode;
+
     private readonly Options<SearchOptions> options;
     private readonly IDialogService dialogService;
     private readonly IFileSystem fileSystem;
+    private readonly IThemeService? themeService;
 
-    public MainWindowViewModel(Options<SearchOptions> options) : this(options, new DialogService(), new FileSystem())
+    public MainWindowViewModel(Options<SearchOptions> options) : this(options, new DialogService(), new FileSystem(), null)
     {
     }
 
-    public MainWindowViewModel(Options<SearchOptions> options, IDialogService dialogService, IFileSystem fileSystem)
+    public MainWindowViewModel(Options<SearchOptions> options, IDialogService dialogService, IFileSystem fileSystem, IThemeService? themeService = null)
     {
         this.options = options;
         this.dialogService = dialogService;
         this.fileSystem = fileSystem;
+        this.themeService = themeService;
 
         FolderHistory = options.Value.FolderHistory;
         Folder = FolderHistory.FirstOrDefault() ?? fileSystem.Directory.GetCurrentDirectory();
@@ -74,6 +78,12 @@ public sealed partial class MainWindowViewModel : ObservableObject
         Globbing = options.Value.Globbing;
         IncludeSubfolders = options.Value.IncludeSubfolders;
         IncludeBinaryFiles = options.Value.IncludeBinaryFiles;
+
+        if (themeService != null)
+        {
+            isDarkMode = themeService.IsDarkMode;
+            themeService.ThemeChanged += (_, theme) => IsDarkMode = theme == AppTheme.Dark;
+        }
     }
 
     partial void OnMatchCaseChanged(bool value) => options.Update(o => o.MatchCase = value);
@@ -111,6 +121,9 @@ public sealed partial class MainWindowViewModel : ObservableObject
             Folder = folderName;
         }
     }
+
+    [RelayCommand]
+    private void ToggleTheme() => themeService?.Toggle();
 
     [RelayCommand(CanExecute = nameof(CanSearch), IncludeCancelCommand = true)]
     private async Task SearchAsync(CancellationToken cancellationToken)

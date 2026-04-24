@@ -1,7 +1,24 @@
 <Application
     x:Class="MGrep.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
     <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- 1. WPF-UI Fluent 2 theme tokens (updated in-place on theme switch) -->
+                <ui:ThemesDictionary Theme="Light" />
+                <!-- 2. WPF-UI Fluent 2 control templates -->
+                <ui:ControlsDictionary />
+                <!-- 3. Cross-theme tokens: typography, spacing, corner radii (no colours) -->
+                <ResourceDictionary Source="pack://application:,,,/Themes/Base.xaml" />
+                <!-- 4. Milliman brand colour primitives — only Light/Dark.xaml may reference these -->
+                <ResourceDictionary Source="pack://application:,,,/Themes/Brand.xaml" />
+                <!-- 5. Semantic brush tokens for current theme (swapped at runtime by ThemeService) -->
+                <ResourceDictionary Source="pack://application:,,,/Themes/Light.xaml" />
+                <!-- 6. App-level control style overrides (semantic tokens only) -->
+                <ResourceDictionary Source="pack://application:,,,/Styles/Controls.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

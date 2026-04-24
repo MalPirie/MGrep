@@ -9,9 +9,10 @@
         d:DesignHeight="450"
         d:DesignWidth="800"
         x:Name="Window"
-        Title="MGrep" 
-        Height="450" 
-        Width="800">
+        Title="MGrep"
+        Height="450"
+        Width="800"
+        Background="{DynamicResource BrushBackground}">
 
     <Window.Resources>
         <local:InvertedBoolConverter x:Key="InvertedBoolConverter" />
@@ -79,7 +80,7 @@
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
                     <Button IsDefault="True" Width="120" BorderThickness="2">
                         <Button.Style>
-                            <Style TargetType="{x:Type Button}">
+                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
                                 <Setter Property="Content" Value="Search" />
                                 <Setter Property="Command" Value="{Binding SearchCommand}" />
                                 <Style.Triggers>
@@ -92,14 +93,30 @@
                         </Button.Style>
                     </Button>
                     <Button Command="{Binding ExportCommand}" Content="Export" Margin="4,0,0,0" />
+                    <Button Command="{Binding ToggleThemeCommand}"
+                            ToolTip="Toggle Light / Dark theme"
+                            Margin="12,0,0,0"
+                            Width="32">
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                                <Setter Property="Content" Value="☀" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsDarkMode}" Value="True">
+                                        <Setter Property="Content" Value="🌙" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                 </StackPanel>
             </Grid>
         </Grid>
 
         <StatusBar DockPanel.Dock="Bottom"
-                   Background="{DynamicResource {x:Static SystemColors.WindowBrush}}">
+                   Background="{DynamicResource BrushStatusBar}">
             <StatusBarItem>
-                <TextBlock Text="{Binding Status}" />
+                <TextBlock Text="{Binding Status}"
+                           Foreground="{DynamicResource BrushStatusBarText}" />
             </StatusBarItem>
         </StatusBar>
 
