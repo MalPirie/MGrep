@@ -93,9 +93,7 @@
     </Style>
 
     <!--
-        StatusBar — rounded bottom corners + themed background/text.
-        CornerRadius matches Windows 11 window chrome rounding.
-        Background is set here so it's removed from the view element.
+        StatusBar — flat (no rounded corners) themed background/text.
     -->
     <Style TargetType="{x:Type StatusBar}">
         <Setter Property="Background"  Value="{DynamicResource BrushStatusBar}" />
@@ -105,7 +103,6 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type StatusBar}">
                     <Border Background="{TemplateBinding Background}"
-                            CornerRadius="{StaticResource CornerRadiusStatusBar}"
                             Padding="{TemplateBinding Padding}">
                         <ItemsPresenter />
                     </Border>
