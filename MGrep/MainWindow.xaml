@@ -167,12 +167,10 @@
                         <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="12" Text="&#xE943;" />
                     </ToggleButton>
                     <ToggleButton IsChecked="{Binding IncludeSubfolders}"
-                                  IsEnabled="{Binding Globbing, Converter={StaticResource InvertedBoolConverter}}"
                                   Margin="12,0,0,0" ToolTip="Include subfolders">
                         <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="12" Text="&#xE838;" />
                     </ToggleButton>
                     <ToggleButton IsChecked="{Binding Globbing}"
-                                  IsEnabled="{Binding IncludeSubfolders, Converter={StaticResource InvertedBoolConverter}}"
                                   Margin="4,0,0,0" ToolTip="Globbing">
                         <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="12" Text="&#xE71C;" />
                     </ToggleButton>

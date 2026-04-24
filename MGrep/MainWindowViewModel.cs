@@ -92,9 +92,17 @@ public sealed partial class MainWindowViewModel : ObservableObject
 
     partial void OnUseRegexChanged(bool value) => options.Update(o => o.UseRegex = value);
 
-    partial void OnGlobbingChanged(bool value) => options.Update(o => o.Globbing = value);
+    partial void OnGlobbingChanged(bool value)
+    {
+        options.Update(o => o.Globbing = value);
+        if (value) IncludeSubfolders = false;
+    }
 
-    partial void OnIncludeSubfoldersChanged(bool value) => options.Update(o => o.IncludeSubfolders = value);
+    partial void OnIncludeSubfoldersChanged(bool value)
+    {
+        options.Update(o => o.IncludeSubfolders = value);
+        if (value) Globbing = false;
+    }
 
     partial void OnIncludeBinaryFilesChanged(bool value) => options.Update(o => o.IncludeBinaryFiles = value);
 

@@ -175,4 +175,54 @@ public class MainWindowViewModelTests
         canExecuteChanged.ShouldBeTrue();
         //viewModel.Matches.Count.ShouldBe(1);
     }
+
+    [Fact]
+    public void WhenEnablingGlobbingThenIncludeSubfoldersShouldBeCleared()
+    {
+        var fileSystem = new MockFileSystem();
+        var options = new Options<SearchOptions>("Search", "application.settings", fileSystem);
+        var viewModel = new MainWindowViewModel(options) { IncludeSubfolders = true };
+
+        viewModel.Globbing = true;
+
+        viewModel.IncludeSubfolders.ShouldBeFalse();
+        options.Value.IncludeSubfolders.ShouldBeFalse();
+    }
+
+    [Fact]
+    public void WhenEnablingIncludeSubfoldersThenGlobbingShouldBeCleared()
+    {
+        var fileSystem = new MockFileSystem();
+        var options = new Options<SearchOptions>("Search", "application.settings", fileSystem);
+        var viewModel = new MainWindowViewModel(options) { Globbing = true };
+
+        viewModel.IncludeSubfolders = true;
+
+        viewModel.Globbing.ShouldBeFalse();
+        options.Value.Globbing.ShouldBeFalse();
+    }
+
+    [Fact]
+    public void WhenDisablingGlobbingThenIncludeSubfoldersShouldRemainFalse()
+    {
+        var fileSystem = new MockFileSystem();
+        var options = new Options<SearchOptions>("Search", "application.settings", fileSystem);
+        var viewModel = new MainWindowViewModel(options) { Globbing = true };
+
+        viewModel.Globbing = false;
+
+        viewModel.IncludeSubfolders.ShouldBeFalse();
+    }
+
+    [Fact]
+    public void WhenDisablingIncludeSubfoldersThenGlobbingShouldRemainFalse()
+    {
+        var fileSystem = new MockFileSystem();
+        var options = new Options<SearchOptions>("Search", "application.settings", fileSystem);
+        var viewModel = new MainWindowViewModel(options) { IncludeSubfolders = true };
+
+        viewModel.IncludeSubfolders = false;
+
+        viewModel.Globbing.ShouldBeFalse();
+    }
 }
