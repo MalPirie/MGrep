@@ -55,6 +55,13 @@
     <SolidColorBrush x:Key="BrushStatusBar"           Color="{StaticResource MillimanObsidianDeep}" />
     <SolidColorBrush x:Key="BrushStatusBarText"       Color="{StaticResource MillimanCloud}" />
 
+    
+    <!-- ── Caption buttons (title bar chrome) ─────────────────────── -->
+    <!-- Hover background for min/max/theme-toggle (slightly lighter than surface) -->
+    <SolidColorBrush x:Key="BrushCaptionButtonHover"  Color="{StaticResource MillimanObsidianBorder}" />
+    <!-- Close button hover — red per Windows convention                  -->
+    <SolidColorBrush x:Key="BrushCaptionCloseHover"   Color="{StaticResource MillimanError}" />
+
     <!--
     ════════════════════════════════════════════════════════════════════════
     WPF-UI BRUSH KEY OVERRIDES

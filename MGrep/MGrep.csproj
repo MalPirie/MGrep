@@ -14,11 +14,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Remove="ApplicationIcon.ico" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Content Include="ApplicationIcon.ico" />
+		<Content Include="OldApplicationIcon.ico" />
 	</ItemGroup>
 
 	<ItemGroup>
