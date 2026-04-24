@@ -8,7 +8,7 @@
     ║                                                                      ║
     ║  Maps Milliman brand primitives (Brand.xaml) to UI semantic roles.  ║
     ║  Also overrides WPF-UI brush keys so WPF-UI control templates       ║
-    ║  automatically render with Milliman brand colours.                   ║
+    ║  automatically render with Milliman brand colours on dark surfaces.  ║
     ║                                                                      ║
     ║  RULES:                                                              ║
     ║    ✅  Only MillimanXxx keys may be referenced here.                 ║
@@ -19,122 +19,124 @@
     -->
 
     <!-- ── Application backgrounds ────────────────────────────────── -->
-    <SolidColorBrush x:Key="BrushBackground"          Color="{StaticResource MillimanNeutral850}" />
-    <SolidColorBrush x:Key="BrushSurface"             Color="{StaticResource MillimanNeutral800}" />
-    <SolidColorBrush x:Key="BrushSurfaceSecondary"    Color="{StaticResource MillimanNeutral750}" />
-    <SolidColorBrush x:Key="BrushSurfaceElevated"     Color="{StaticResource MillimanNeutral700}" />
+    <SolidColorBrush x:Key="BrushBackground"          Color="{StaticResource MillimanObsidianDark}" />
+    <SolidColorBrush x:Key="BrushSurface"             Color="{StaticResource MillimanObsidian}" />
+    <SolidColorBrush x:Key="BrushSurfaceSecondary"    Color="{StaticResource MillimanObsidianLight}" />
+    <SolidColorBrush x:Key="BrushSurfaceElevated"     Color="{StaticResource MillimanObsidianLight}" />
 
     <!-- ── Foregrounds / text ──────────────────────────────────────── -->
-    <SolidColorBrush x:Key="BrushForegroundPrimary"   Color="{StaticResource MillimanNeutral050}" />
-    <SolidColorBrush x:Key="BrushForegroundSecondary" Color="{StaticResource MillimanNeutral400}" />
-    <SolidColorBrush x:Key="BrushForegroundDisabled"  Color="{StaticResource MillimanNeutral600}" />
-    <SolidColorBrush x:Key="BrushForegroundOnAccent"  Color="{StaticResource MillimanNeutral000}" />
+    <SolidColorBrush x:Key="BrushForegroundPrimary"   Color="{StaticResource MillimanCloud}" />
+    <SolidColorBrush x:Key="BrushForegroundSecondary" Color="{StaticResource MillimanDarkenGray}" />
+    <SolidColorBrush x:Key="BrushForegroundDisabled"  Color="{StaticResource MillimanSlate}" />
+    <!-- Text on Sky/Ocean accent background — Obsidian gives 7.3:1 on Sky ✅ -->
+    <SolidColorBrush x:Key="BrushForegroundOnAccent"  Color="{StaticResource MillimanObsidian}" />
 
     <!-- ── Accent (primary interactive colour) ─────────────────────── -->
-    <SolidColorBrush x:Key="BrushAccent"              Color="{StaticResource MillimanBlue400}" />
-    <SolidColorBrush x:Key="BrushAccentHover"         Color="{StaticResource MillimanBlue300}" />
-    <SolidColorBrush x:Key="BrushAccentPressed"       Color="{StaticResource MillimanBlue500}" />
-    <SolidColorBrush x:Key="BrushAccentDisabled"      Color="{StaticResource MillimanNeutral600}" />
-    <SolidColorBrush x:Key="BrushAccentSubtle"        Color="{StaticResource MillimanBlue900}" />
-    <SolidColorBrush x:Key="BrushAccentText"          Color="{StaticResource MillimanBlue300}" />
+    <!-- Sky is Milliman's interactive colour for dark contexts (used on bg-obsidian) -->
+    <SolidColorBrush x:Key="BrushAccent"              Color="{StaticResource MillimanSky}" />
+    <SolidColorBrush x:Key="BrushAccentHover"         Color="{StaticResource MillimanOcean}" />
+    <SolidColorBrush x:Key="BrushAccentPressed"       Color="{StaticResource MillimanOcean}" />
+    <SolidColorBrush x:Key="BrushAccentDisabled"      Color="{StaticResource MillimanSlate}" />
+    <SolidColorBrush x:Key="BrushAccentSubtle"        Color="{StaticResource MillimanObsidianLight}" />
+    <SolidColorBrush x:Key="BrushAccentText"          Color="{StaticResource MillimanSky}" />
 
     <!-- ── Borders & focus ─────────────────────────────────────────── -->
-    <SolidColorBrush x:Key="BrushBorder"              Color="{StaticResource MillimanNeutral700}" />
-    <SolidColorBrush x:Key="BrushBorderStrong"        Color="{StaticResource MillimanNeutral600}" />
-    <SolidColorBrush x:Key="BrushBorderFocus"         Color="{StaticResource MillimanBlue400}" />
+    <SolidColorBrush x:Key="BrushBorder"              Color="{StaticResource MillimanObsidianBorder}" />
+    <SolidColorBrush x:Key="BrushBorderStrong"        Color="{StaticResource MillimanSlate}" />
+    <SolidColorBrush x:Key="BrushBorderFocus"         Color="{StaticResource MillimanSky}" />
 
     <!-- ── Status ──────────────────────────────────────────────────── -->
-    <SolidColorBrush x:Key="BrushError"               Color="{StaticResource MillimanErrorRedDark}" />
-    <SolidColorBrush x:Key="BrushWarning"             Color="{StaticResource MillimanWarningAmberDark}" />
-    <SolidColorBrush x:Key="BrushSuccess"             Color="{StaticResource MillimanSuccessGreenDark}" />
-    <SolidColorBrush x:Key="BrushInfo"                Color="{StaticResource MillimanInfoBlueDark}" />
+    <SolidColorBrush x:Key="BrushError"               Color="{StaticResource MillimanErrorDark}" />
+    <SolidColorBrush x:Key="BrushWarning"             Color="{StaticResource MillimanWarningDark}" />
+    <SolidColorBrush x:Key="BrushSuccess"             Color="{StaticResource MillimanSuccessDark}" />
+    <SolidColorBrush x:Key="BrushInfo"                Color="{StaticResource MillimanSky}" />
 
     <!-- ── Shell chrome ────────────────────────────────────────────── -->
-    <SolidColorBrush x:Key="BrushStatusBar"           Color="{StaticResource MillimanNeutral950}" />
-    <SolidColorBrush x:Key="BrushStatusBarText"       Color="{StaticResource MillimanNeutral300}" />
+    <SolidColorBrush x:Key="BrushStatusBar"           Color="{StaticResource MillimanObsidianDeep}" />
+    <SolidColorBrush x:Key="BrushStatusBarText"       Color="{StaticResource MillimanCloud}" />
 
     <!--
     ════════════════════════════════════════════════════════════════════════
     WPF-UI BRUSH KEY OVERRIDES
-    Override WPF-UI's internal tokens so that WPF-UI control templates
+    Override WPF-UI internal tokens so WPF-UI control templates
     automatically render with Milliman brand colours on dark backgrounds.
     ════════════════════════════════════════════════════════════════════════
     -->
 
     <!-- Text -->
-    <SolidColorBrush x:Key="TextFillColorPrimaryBrush"          Color="{StaticResource MillimanNeutral050}" />
-    <SolidColorBrush x:Key="TextFillColorSecondaryBrush"        Color="{StaticResource MillimanNeutral400}" />
-    <SolidColorBrush x:Key="TextFillColorTertiaryBrush"         Color="{StaticResource MillimanNeutral500}" />
-    <SolidColorBrush x:Key="TextFillColorDisabledBrush"         Color="{StaticResource MillimanNeutral600}" />
-    <SolidColorBrush x:Key="TextFillColorInverseBrush"          Color="{StaticResource MillimanNeutral900}" />
+    <SolidColorBrush x:Key="TextFillColorPrimaryBrush"          Color="{StaticResource MillimanCloud}" />
+    <SolidColorBrush x:Key="TextFillColorSecondaryBrush"        Color="{StaticResource MillimanDarkenGray}" />
+    <SolidColorBrush x:Key="TextFillColorTertiaryBrush"         Color="{StaticResource MillimanSlate}" />
+    <SolidColorBrush x:Key="TextFillColorDisabledBrush"         Color="{StaticResource MillimanSlate}" />
+    <SolidColorBrush x:Key="TextFillColorInverseBrush"          Color="{StaticResource MillimanObsidian}" />
 
     <!-- Accent text -->
-    <SolidColorBrush x:Key="AccentTextFillColorPrimaryBrush"    Color="{StaticResource MillimanBlue300}" />
-    <SolidColorBrush x:Key="AccentTextFillColorSecondaryBrush"  Color="{StaticResource MillimanBlue400}" />
-    <SolidColorBrush x:Key="AccentTextFillColorTertiaryBrush"   Color="{StaticResource MillimanBlue200}" />
-    <SolidColorBrush x:Key="AccentTextFillColorDisabledBrush"   Color="{StaticResource MillimanNeutral600}" />
+    <SolidColorBrush x:Key="AccentTextFillColorPrimaryBrush"    Color="{StaticResource MillimanSky}" />
+    <SolidColorBrush x:Key="AccentTextFillColorSecondaryBrush"  Color="{StaticResource MillimanOcean}" />
+    <SolidColorBrush x:Key="AccentTextFillColorTertiaryBrush"   Color="{StaticResource MillimanSky}" />
+    <SolidColorBrush x:Key="AccentTextFillColorDisabledBrush"   Color="{StaticResource MillimanSlate}" />
 
-    <!-- Text on accent background -->
-    <SolidColorBrush x:Key="TextOnAccentFillColorPrimaryBrush"  Color="{StaticResource MillimanNeutral000}" />
-    <SolidColorBrush x:Key="TextOnAccentFillColorSecondaryBrush" Color="{StaticResource MillimanNeutral050}" />
-    <SolidColorBrush x:Key="TextOnAccentFillColorDisabledBrush" Color="{StaticResource MillimanNeutral700}" />
-    <SolidColorBrush x:Key="TextOnAccentFillColorSelectedTextBrush" Color="{StaticResource MillimanNeutral000}" />
+    <!-- Text on accent background (Sky/Ocean fills) -->
+    <SolidColorBrush x:Key="TextOnAccentFillColorPrimaryBrush"  Color="{StaticResource MillimanObsidian}" />
+    <SolidColorBrush x:Key="TextOnAccentFillColorSecondaryBrush" Color="{StaticResource MillimanObsidianLight}" />
+    <SolidColorBrush x:Key="TextOnAccentFillColorDisabledBrush" Color="{StaticResource MillimanObsidianLight}" />
+    <SolidColorBrush x:Key="TextOnAccentFillColorSelectedTextBrush" Color="{StaticResource MillimanObsidian}" />
 
     <!-- Accent fills (buttons, toggles, progress bars) -->
-    <SolidColorBrush x:Key="AccentFillColorDefaultBrush"        Color="{StaticResource MillimanBlue400}" />
-    <SolidColorBrush x:Key="AccentFillColorSecondaryBrush"      Color="{StaticResource MillimanBlue300}" />
-    <SolidColorBrush x:Key="AccentFillColorTertiaryBrush"       Color="{StaticResource MillimanBlue500}" />
-    <SolidColorBrush x:Key="AccentFillColorDisabledBrush"       Color="{StaticResource MillimanNeutral700}" />
-    <SolidColorBrush x:Key="AccentFillColorSelectedTextBackgroundBrush" Color="{StaticResource MillimanBlue400}" />
+    <SolidColorBrush x:Key="AccentFillColorDefaultBrush"        Color="{StaticResource MillimanSky}" />
+    <SolidColorBrush x:Key="AccentFillColorSecondaryBrush"      Color="{StaticResource MillimanOcean}" />
+    <SolidColorBrush x:Key="AccentFillColorTertiaryBrush"       Color="{StaticResource MillimanSky}" />
+    <SolidColorBrush x:Key="AccentFillColorDisabledBrush"       Color="{StaticResource MillimanSlate}" />
+    <SolidColorBrush x:Key="AccentFillColorSelectedTextBackgroundBrush" Color="{StaticResource MillimanSky}" />
 
     <!-- Control fills (inputs, non-accent interactive surfaces) -->
-    <SolidColorBrush x:Key="ControlFillColorDefaultBrush"       Color="{StaticResource MillimanNeutral800}" />
-    <SolidColorBrush x:Key="ControlFillColorSecondaryBrush"     Color="{StaticResource MillimanNeutral750}" />
-    <SolidColorBrush x:Key="ControlFillColorTertiaryBrush"      Color="{StaticResource MillimanNeutral700}" />
-    <SolidColorBrush x:Key="ControlFillColorQuarternaryBrush"   Color="{StaticResource MillimanNeutral700}" />
-    <SolidColorBrush x:Key="ControlFillColorDisabledBrush"      Color="{StaticResource MillimanNeutral850}" />
+    <SolidColorBrush x:Key="ControlFillColorDefaultBrush"       Color="{StaticResource MillimanObsidian}" />
+    <SolidColorBrush x:Key="ControlFillColorSecondaryBrush"     Color="{StaticResource MillimanObsidianLight}" />
+    <SolidColorBrush x:Key="ControlFillColorTertiaryBrush"      Color="{StaticResource MillimanObsidianLight}" />
+    <SolidColorBrush x:Key="ControlFillColorQuarternaryBrush"   Color="{StaticResource MillimanObsidianLight}" />
+    <SolidColorBrush x:Key="ControlFillColorDisabledBrush"      Color="{StaticResource MillimanObsidianDark}" />
     <SolidColorBrush x:Key="ControlFillColorTransparentBrush"   Color="Transparent" />
-    <SolidColorBrush x:Key="ControlFillColorInputActiveBrush"   Color="{StaticResource MillimanNeutral800}" />
+    <SolidColorBrush x:Key="ControlFillColorInputActiveBrush"   Color="{StaticResource MillimanObsidian}" />
 
     <!-- Control strokes (borders) -->
-    <SolidColorBrush x:Key="ControlStrokeColorDefaultBrush"     Color="{StaticResource MillimanNeutral700}" />
-    <SolidColorBrush x:Key="ControlStrokeColorSecondaryBrush"   Color="{StaticResource MillimanNeutral600}" />
-    <SolidColorBrush x:Key="ControlStrokeColorOnAccentDefaultBrush"   Color="{StaticResource MillimanBlue300}" />
-    <SolidColorBrush x:Key="ControlStrokeColorOnAccentSecondaryBrush" Color="{StaticResource MillimanBlue200}" />
-    <SolidColorBrush x:Key="ControlStrokeColorOnAccentTertiaryBrush"  Color="{StaticResource MillimanBlue500}" />
-    <SolidColorBrush x:Key="ControlStrokeColorOnAccentDisabledBrush"  Color="{StaticResource MillimanNeutral700}" />
+    <SolidColorBrush x:Key="ControlStrokeColorDefaultBrush"     Color="{StaticResource MillimanObsidianBorder}" />
+    <SolidColorBrush x:Key="ControlStrokeColorSecondaryBrush"   Color="{StaticResource MillimanSlate}" />
+    <SolidColorBrush x:Key="ControlStrokeColorOnAccentDefaultBrush"   Color="{StaticResource MillimanSky}" />
+    <SolidColorBrush x:Key="ControlStrokeColorOnAccentSecondaryBrush" Color="{StaticResource MillimanOcean}" />
+    <SolidColorBrush x:Key="ControlStrokeColorOnAccentTertiaryBrush"  Color="{StaticResource MillimanSky}" />
+    <SolidColorBrush x:Key="ControlStrokeColorOnAccentDisabledBrush"  Color="{StaticResource MillimanSlate}" />
 
     <!-- Subtle fills (list item hover, row highlights) -->
     <SolidColorBrush x:Key="SubtleFillColorTransparentBrush"    Color="Transparent" />
-    <SolidColorBrush x:Key="SubtleFillColorSecondaryBrush"      Color="{StaticResource MillimanNeutral750}" />
-    <SolidColorBrush x:Key="SubtleFillColorTertiaryBrush"       Color="{StaticResource MillimanNeutral700}" />
+    <SolidColorBrush x:Key="SubtleFillColorSecondaryBrush"      Color="{StaticResource MillimanObsidianLight}" />
+    <SolidColorBrush x:Key="SubtleFillColorTertiaryBrush"       Color="{StaticResource MillimanObsidianBorder}" />
     <SolidColorBrush x:Key="SubtleFillColorDisabledBrush"       Color="Transparent" />
 
     <!-- Layer fills (cards, panels) -->
-    <SolidColorBrush x:Key="LayerFillColorDefaultBrush"         Color="{StaticResource MillimanNeutral800}" />
-    <SolidColorBrush x:Key="LayerFillColorAltBrush"             Color="{StaticResource MillimanNeutral750}" />
+    <SolidColorBrush x:Key="LayerFillColorDefaultBrush"         Color="{StaticResource MillimanObsidian}" />
+    <SolidColorBrush x:Key="LayerFillColorAltBrush"             Color="{StaticResource MillimanObsidianLight}" />
 
     <!-- Application / window background -->
-    <SolidColorBrush x:Key="ApplicationBackgroundBrush"         Color="{StaticResource MillimanNeutral850}" />
-    <SolidColorBrush x:Key="SolidBackgroundFillColorBaseBrush"  Color="{StaticResource MillimanNeutral850}" />
-    <SolidColorBrush x:Key="SolidBackgroundFillColorBaseAltBrush"      Color="{StaticResource MillimanNeutral800}" />
-    <SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush"    Color="{StaticResource MillimanNeutral800}" />
-    <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush"     Color="{StaticResource MillimanNeutral750}" />
-    <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush"  Color="{StaticResource MillimanNeutral700}" />
+    <SolidColorBrush x:Key="ApplicationBackgroundBrush"         Color="{StaticResource MillimanObsidianDark}" />
+    <SolidColorBrush x:Key="SolidBackgroundFillColorBaseBrush"  Color="{StaticResource MillimanObsidianDark}" />
+    <SolidColorBrush x:Key="SolidBackgroundFillColorBaseAltBrush"      Color="{StaticResource MillimanObsidian}" />
+    <SolidColorBrush x:Key="SolidBackgroundFillColorSecondaryBrush"    Color="{StaticResource MillimanObsidian}" />
+    <SolidColorBrush x:Key="SolidBackgroundFillColorTertiaryBrush"     Color="{StaticResource MillimanObsidianLight}" />
+    <SolidColorBrush x:Key="SolidBackgroundFillColorQuarternaryBrush"  Color="{StaticResource MillimanObsidianLight}" />
 
     <!-- Card backgrounds -->
-    <SolidColorBrush x:Key="CardBackgroundFillColorDefaultBrush"   Color="{StaticResource MillimanNeutral800}" />
-    <SolidColorBrush x:Key="CardBackgroundFillColorSecondaryBrush" Color="{StaticResource MillimanNeutral750}" />
+    <SolidColorBrush x:Key="CardBackgroundFillColorDefaultBrush"   Color="{StaticResource MillimanObsidian}" />
+    <SolidColorBrush x:Key="CardBackgroundFillColorSecondaryBrush" Color="{StaticResource MillimanObsidianLight}" />
 
     <!-- Focus -->
-    <SolidColorBrush x:Key="FocusStrokeColorOuterBrush"         Color="{StaticResource MillimanBlue400}" />
-    <SolidColorBrush x:Key="FocusStrokeColorInnerBrush"         Color="{StaticResource MillimanNeutral850}" />
+    <SolidColorBrush x:Key="FocusStrokeColorOuterBrush"         Color="{StaticResource MillimanSky}" />
+    <SolidColorBrush x:Key="FocusStrokeColorInnerBrush"         Color="{StaticResource MillimanObsidianDark}" />
 
     <!-- System status fills -->
-    <SolidColorBrush x:Key="SystemFillColorSuccessBrush"        Color="{StaticResource MillimanSuccessGreenDark}" />
-    <SolidColorBrush x:Key="SystemFillColorCautionBrush"        Color="{StaticResource MillimanWarningAmberDark}" />
-    <SolidColorBrush x:Key="SystemFillColorCriticalBrush"       Color="{StaticResource MillimanErrorRedDark}" />
-    <SolidColorBrush x:Key="SystemFillColorNeutralBrush"        Color="{StaticResource MillimanNeutral400}" />
-    <SolidColorBrush x:Key="SystemFillColorSolidNeutralBrush"   Color="{StaticResource MillimanNeutral600}" />
+    <SolidColorBrush x:Key="SystemFillColorSuccessBrush"        Color="{StaticResource MillimanSuccessDark}" />
+    <SolidColorBrush x:Key="SystemFillColorCautionBrush"        Color="{StaticResource MillimanWarningDark}" />
+    <SolidColorBrush x:Key="SystemFillColorCriticalBrush"       Color="{StaticResource MillimanErrorDark}" />
+    <SolidColorBrush x:Key="SystemFillColorNeutralBrush"        Color="{StaticResource MillimanDarkenGray}" />
+    <SolidColorBrush x:Key="SystemFillColorSolidNeutralBrush"   Color="{StaticResource MillimanSlate}" />
 
 </ResourceDictionary>

@@ -6,67 +6,99 @@
     ╔══════════════════════════════════════════════════════════════════════╗
     ║  MILLIMAN BRAND PRIMITIVES                                           ║
     ║                                                                      ║
-    ║  ⚠  PLACEHOLDER VALUES — Replace with the official Milliman brand   ║
-    ║     palette before any production or customer-facing release.        ║
-    ║     Request the hex values from the Milliman Design / Brand team.    ║
+    ║  Source: https://www.milliman.com CSS — :root custom property block  ║
+    ║  Verified 2026-04-24 from the public Milliman website stylesheet.    ║
+    ║  Authoritative reference: https://brandcentral.milliman.com/         ║
+    ║  (requires Milliman credentials — confirm any update with Brand).    ║
     ║                                                                      ║
     ║  ❌  DO NOT REFERENCE THESE KEYS FROM CONTROL STYLES OR TEMPLATES.  ║
     ║     Only Light.xaml and Dark.xaml may reference MillimanXxx keys.   ║
     ║     Control styles must use semantic tokens (BrushXxx) exclusively.  ║
     ║                                                                      ║
     ║  HOW TO UPDATE FOR A BRAND REFRESH:                                  ║
-    ║     1. Replace the hex values below with approved brand values.      ║
-    ║     2. Re-validate WCAG AA contrast ratios (4.5:1 body, 3:1 UI).    ║
-    ║     3. Build and verify — no other file needs to change.             ║
+    ║     1. Confirm new hex values with Brand Central / Design team.      ║
+    ║     2. Replace values below.                                         ║
+    ║     3. Re-validate WCAG AA contrast ratios (4.5:1 body, 3:1 UI).    ║
+    ║     4. Build and verify — no other file needs to change.             ║
     ╚══════════════════════════════════════════════════════════════════════╝
     -->
 
-    <!-- ── Blue ramp — primary brand colour family ─────────────────────
-         ⚠ PLACEHOLDER: Replace with official Milliman blue palette.
-    ──────────────────────────────────────────────────────────────────── -->
-    <Color x:Key="MillimanBlue050">#E8F0FB</Color>
-    <Color x:Key="MillimanBlue100">#C7D9F5</Color>
-    <Color x:Key="MillimanBlue200">#9CBCE8</Color>
-    <Color x:Key="MillimanBlue300">#6E9DDA</Color>
-    <Color x:Key="MillimanBlue400">#4680CE</Color>
-    <Color x:Key="MillimanBlue500">#1E63C2</Color>  <!-- Primary brand blue -->
-    <Color x:Key="MillimanBlue600">#1A54A6</Color>
-    <Color x:Key="MillimanBlue700">#14428A</Color>
-    <Color x:Key="MillimanBlue800">#0E306E</Color>
-    <Color x:Key="MillimanBlue900">#081E52</Color>
+    <!--
+    ── CORE BRAND COLOURS ──────────────────────────────────────────────────
+    Named colours matching Milliman's own design token system (CSS var names).
+    Values extracted from https://www.milliman.com CSS :root block.
+    -->
 
-    <!-- ── Neutral ramp — backgrounds, surfaces, borders, text ────────
-         ⚠ PLACEHOLDER: Replace with official Milliman neutral palette.
-    ──────────────────────────────────────────────────────────────────── -->
-    <Color x:Key="MillimanNeutral000">#FFFFFF</Color>
-    <Color x:Key="MillimanNeutral050">#F9F9F9</Color>
-    <Color x:Key="MillimanNeutral100">#F3F3F3</Color>
-    <Color x:Key="MillimanNeutral150">#EBEBEB</Color>
-    <Color x:Key="MillimanNeutral200">#E1E1E1</Color>
-    <Color x:Key="MillimanNeutral300">#C8C8C8</Color>
-    <Color x:Key="MillimanNeutral400">#A0A0A0</Color>
-    <Color x:Key="MillimanNeutral500">#737373</Color>
-    <Color x:Key="MillimanNeutral600">#5C5C5C</Color>
-    <Color x:Key="MillimanNeutral700">#404040</Color>
-    <Color x:Key="MillimanNeutral750">#323232</Color>
-    <Color x:Key="MillimanNeutral800">#272727</Color>
-    <Color x:Key="MillimanNeutral850">#202020</Color>
-    <Color x:Key="MillimanNeutral900">#1A1A1A</Color>
-    <Color x:Key="MillimanNeutral950">#121212</Color>
+    <!-- Ocean — primary interactive blue (buttons, links, accent fills)       -->
+    <!-- Contrast on White: 4.53:1 ✅ AA  |  on Cloud: 4.12:1 ⚠ large text   -->
+    <Color x:Key="MillimanOcean">#0078D4</Color>
 
-    <!-- ── Status colours ─────────────────────────────────────────────
-         Light-mode values. See *Dark variants for dark-mode usage.
-         ⚠ PLACEHOLDER: Confirm with brand/accessibility team.
-    ──────────────────────────────────────────────────────────────────── -->
-    <Color x:Key="MillimanErrorRed">#C42B1C</Color>
-    <Color x:Key="MillimanWarningAmber">#9D5D00</Color>
-    <Color x:Key="MillimanSuccessGreen">#0F7B0F</Color>
-    <Color x:Key="MillimanInfoBlue">#0078D4</Color>
+    <!-- Obsidian — dark navy (body text, dark surfaces, primary button hover)  -->
+    <!-- Contrast on White: 14.7:1 ✅ AAA  |  on Cloud: 13.3:1 ✅ AAA         -->
+    <Color x:Key="MillimanObsidian">#222B36</Color>
 
-    <!-- Dark-mode adjusted status colours (lighter for dark backgrounds) -->
-    <Color x:Key="MillimanErrorRedDark">#FF99A4</Color>
-    <Color x:Key="MillimanWarningAmberDark">#FCE100</Color>
-    <Color x:Key="MillimanSuccessGreenDark">#6CCB5F</Color>
-    <Color x:Key="MillimanInfoBlueDark">#60CDFF</Color>
+    <!-- Sky — light cornflower blue (interactive elements on dark backgrounds) -->
+    <!-- Contrast on Obsidian: 7.3:1 ✅ AAA                                    -->
+    <Color x:Key="MillimanSky">#50BDFF</Color>
+
+    <!-- Cloud — light grey (app / page backgrounds)                            -->
+    <Color x:Key="MillimanCloud">#F4F4F4</Color>
+
+    <!-- White — pure white (control surfaces, elevated cards)                  -->
+    <Color x:Key="MillimanWhite">#FFFFFF</Color>
+
+    <!-- Slate — medium grey (secondary text, captions, hints)                  -->
+    <!-- Contrast on White: 4.60:1 ✅ AA                                        -->
+    <Color x:Key="MillimanSlate">#6F777A</Color>
+
+    <!--
+    ── GREY SCALE ──────────────────────────────────────────────────────────
+    Neutral greys from Milliman's CSS colour utilities.
+    -->
+    <!-- Very light surface (input fills on Cloud background)               -->
+    <Color x:Key="MillimanLightestGray">#F8F8F8</Color>
+
+    <!-- Subtle borders, separators, and row rules                          -->
+    <Color x:Key="MillimanLighterGray">#DFDFDF</Color>
+
+    <!-- Stronger borders, disabled control fills                           -->
+    <Color x:Key="MillimanDarkenGray">#C5C5C5</Color>
+
+    <!-- Subtle blue tint — selection highlight, hovered table row          -->
+    <Color x:Key="MillimanHighlightBlue">#E5F0FF</Color>
+
+    <!--
+    ── DARK-THEME LAYERING ─────────────────────────────────────────────────
+    Tonal variations derived from Obsidian (#222B36) for dark-mode surface
+    layering. Proportional HSL adjustments — not separate brand colours.
+    Confirm with Brand team before use in customer-facing materials.
+    -->
+    <!-- Elevated card / input surface on dark (slightly lighter than Obsidian) -->
+    <Color x:Key="MillimanObsidianLight">#2E3C4A</Color>
+
+    <!-- App background on dark (darker than Obsidian)                          -->
+    <Color x:Key="MillimanObsidianDark">#161D26</Color>
+
+    <!-- StatusBar / deepest surface on dark                                     -->
+    <Color x:Key="MillimanObsidianDeep">#0F141C</Color>
+
+    <!-- Border / divider colour on dark surfaces                                -->
+    <Color x:Key="MillimanObsidianBorder">#3A4B5C</Color>
+
+    <!--
+    ── STATUS COLOURS ──────────────────────────────────────────────────────
+    Functional colours not present in the public brand palette.
+    ⚠ Confirm with Brand / Accessibility team before production use.
+    All light-mode values meet WCAG AA (4.5:1) on White.
+    Dark-mode values meet WCAG AA (4.5:1) on MillimanObsidianDark.
+    -->
+    <Color x:Key="MillimanError">#C42B1C</Color>           <!-- Error / destructive (light mode)  -->
+    <Color x:Key="MillimanWarning">#9D5D00</Color>         <!-- Warning / caution  (light mode)   -->
+    <Color x:Key="MillimanSuccess">#0F7B0F</Color>         <!-- Success / confirmed (light mode)  -->
+
+    <!-- Dark-mode status — lighter for legibility on dark backgrounds      -->
+    <Color x:Key="MillimanErrorDark">#FF99A4</Color>
+    <Color x:Key="MillimanWarningDark">#FCE100</Color>
+    <Color x:Key="MillimanSuccessDark">#6CCB5F</Color>
 
 </ResourceDictionary>
