@@ -12,17 +12,11 @@
         Title="MGrep"
         Height="450"
         Width="800"
+        WindowStyle="None"
+        ResizeMode="NoResize"
         Background="{DynamicResource BrushBackground}">
 
-    <WindowChrome.WindowChrome>
-        <!-- CaptionHeight matches the title-bar Grid height.
-             ResizeBorderThickness and CornerRadius use system defaults.
-             DWM rounded corners are applied in OnSourceInitialized via DwmSetWindowAttribute. -->
-        <WindowChrome CaptionHeight="32"
-                      GlassFrameThickness="0" />
-    </WindowChrome.WindowChrome>
-
-    <!-- SystemCommands require explicit CommandBindings when using a custom WindowChrome. -->
+    <!-- SystemCommands require explicit CommandBindings with a custom title bar. -->
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static SystemCommands.CloseWindowCommand}"    Executed="CloseWindow" />
         <CommandBinding Command="{x:Static SystemCommands.MinimizeWindowCommand}" Executed="MinimizeWindow" />
@@ -38,18 +32,27 @@
     <DockPanel LastChildFill="True">
 
         <!-- ── Custom title bar ──────────────────────────────────────────
-             Height matches WindowChrome.CaptionHeight (32px).
-             The entire row is a drag area; buttons opt in with
-             WindowChrome.IsHitTestVisibleInChrome (set in their Style).
+             WM_NCHITTEST (in code-behind) returns HTCAPTION for the empty
+             area here, so native drag/snap/double-click-maximise all work.
+             Buttons are detected via VisualTreeHelper and return HTCLIENT.
         ─────────────────────────────────────────────────────────────── -->
-        <Grid DockPanel.Dock="Top"
+        <Grid x:Name="TitleBarGrid"
+              DockPanel.Dock="Top"
               Height="32"
-              Background="{DynamicResource BrushSurface}">
+              Background="{DynamicResource BrushBackground}">
+
+            <!-- Application icon, far left -->
+            <Image Source="/MGrep;component/ApplicationIcon.ico"
+                   Width="16" Height="16"
+                   Margin="8,0,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   RenderOptions.BitmapScalingMode="HighQuality" />
+
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 
                 <!-- Theme toggle — Segoe MDL2: E793 = Brightness (sun), E708 = QuietHours (moon) -->
                 <Button Style="{StaticResource CaptionButtonStyle}"
-                        WindowChrome.IsHitTestVisibleInChrome="True"
                         Command="{Binding ToggleThemeCommand}"
                         ToolTip="Toggle Light / Dark theme">
                     <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="12">
@@ -68,13 +71,12 @@
 
                 <!-- Minimize -->
                 <Button Style="{StaticResource CaptionButtonStyle}"
-                        WindowChrome.IsHitTestVisibleInChrome="True"
                         Command="{x:Static SystemCommands.MinimizeWindowCommand}">
                     <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="10" Text="&#xE108;" />
                 </Button>
 
                 <!-- Maximize / Restore — command and icon switch via WindowState -->
-                <Button WindowChrome.IsHitTestVisibleInChrome="True">
+                <Button>
                     <Button.Style>
                         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource CaptionButtonStyle}">
                             <Setter Property="Command" Value="{x:Static SystemCommands.MaximizeWindowCommand}" />
@@ -103,7 +105,6 @@
 
                 <!-- Close -->
                 <Button Style="{StaticResource CaptionCloseButtonStyle}"
-                        WindowChrome.IsHitTestVisibleInChrome="True"
                         Command="{x:Static SystemCommands.CloseWindowCommand}">
                     <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="10" Text="&#xE106;" />
                 </Button>
