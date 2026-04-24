@@ -23,16 +23,27 @@ public partial class MainWindow : Window
 
     // ── Window chrome ─────────────────────────────────────────────────────
 
+    private IntPtr _hwnd;
+
     protected override void OnSourceInitialized(EventArgs e)
     {
         base.OnSourceInitialized(e);
-        var hwnd = new WindowInteropHelper(this).Handle;
+        _hwnd = new WindowInteropHelper(this).Handle;
 
-        // DWM rounded corners on Windows 11 (no-op on Windows 10).
-        int rounded = 2; // DWMWCP_ROUND
-        DwmSetWindowAttribute(hwnd, 33, ref rounded, sizeof(int));
+        UpdateCornerPreference();
+        StateChanged += (_, _) => UpdateCornerPreference();
 
-        HwndSource.FromHwnd(hwnd).AddHook(HookProc);
+        HwndSource.FromHwnd(_hwnd).AddHook(HookProc);
+    }
+
+    // Square corners when maximised (window fills the screen edge-to-edge);
+    // rounded corners when in the normal restored state (Windows 11 only).
+    private void UpdateCornerPreference()
+    {
+        int pref = WindowState == WindowState.Maximized
+            ? 1  // DWMWCP_DONOTROUND
+            : 2; // DWMWCP_ROUND
+        DwmSetWindowAttribute(_hwnd, 33, ref pref, sizeof(int));
     }
 
     private IntPtr HookProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -95,7 +106,7 @@ public partial class MainWindow : Window
             {
                 if (lParam == IntPtr.Zero) break;
                 var mmi = Marshal.PtrToStructure<MINMAXINFO>(lParam);
-                var monitor = MonitorFromWindow(hwnd, 2); // MONITOR_DEFAULTTONEAREST
+                var monitor = MonitorFromWindow(_hwnd, 2); // MONITOR_DEFAULTTONEAREST
                 if (monitor != IntPtr.Zero)
                 {
                     var mi = new MONITORINFO { cbSize = (uint)Marshal.SizeOf<MONITORINFO>() };
