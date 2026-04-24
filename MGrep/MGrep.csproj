@@ -15,6 +15,7 @@
 
 	<ItemGroup>
 		<Content Include="OldApplicationIcon.ico" />
+		<Resource Include="ApplicationIcon.ico" />
 	</ItemGroup>
 
 	<ItemGroup>
