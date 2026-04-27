@@ -193,14 +193,17 @@
     <!--
         ToggleButtonStyle — outline-accent "tinted chip" pattern.
 
-        Unchecked:      transparent fill, subtle border, body-text icon colour.
+        Unchecked:      window-background fill, subtle border, body-text icon.
         Unchecked hover: subtle surface tint, slightly stronger border.
         Checked:        BrushAccentSubtle fill (soft tint), BrushAccent border + icon.
         Checked hover:  same tint fill, BrushAccentHover border (slightly darker accent).
         Checked pressed: same tint fill, BrushAccentPressed border.
 
-        This intentionally differs from PrimaryButtonStyle (solid accent fill) to
-        preserve visual hierarchy: filters are secondary to the primary action.
+        Background is never Transparent: WPF anti-aliases rounded corner pixels by
+        blending the border colour with the Background.  Transparent would blend against
+        the parent window colour — producing a visible "fading" artefact at each corner.
+        Using ApplicationBackgroundBrush (the window colour) as the unchecked background
+        means the blend is always between two known solid colours, giving clean corners.
 
         OverridesDefaultStyle=True prevents the WPF-UI implicit ToggleButton template
         from fighting with this one.
@@ -208,7 +211,7 @@
     <Style TargetType="{x:Type ToggleButton}">
         <Setter Property="OverridesDefaultStyle"      Value="True" />
         <Setter Property="FocusVisualStyle"           Value="{DynamicResource DefaultControlFocusVisualStyle}" />
-        <Setter Property="Background"                 Value="Transparent" />
+        <Setter Property="Background"                 Value="{DynamicResource ApplicationBackgroundBrush}" />
         <Setter Property="Foreground"                 Value="{DynamicResource TextFillColorPrimaryBrush}" />
         <Setter Property="BorderBrush"                Value="{DynamicResource ControlStrokeColorDefaultBrush}" />
         <Setter Property="BorderThickness"            Value="1" />
@@ -216,6 +219,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment"   Value="Center" />
         <Setter Property="FontSize"                   Value="{DynamicResource ControlContentThemeFontSize}" />
+        <Setter Property="Border.CornerRadius"        Value="{DynamicResource ControlCornerRadius}" />
         <Setter Property="SnapsToDevicePixels"        Value="True" />
         <Setter Property="Cursor"                     Value="Hand" />
         <Setter Property="Template">
@@ -225,6 +229,7 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding Border.CornerRadius}"
                             Padding="{TemplateBinding Padding}"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                         <ContentPresenter x:Name="Cp"
