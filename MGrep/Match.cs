@@ -5,4 +5,5 @@ namespace MGrep;
 public readonly record struct Match(string FileName, int LineNumber, string Text)
 {
     public string Name => Path.GetFileName(FileName);
+    public (int Start, int Length)[] Spans { get; init; } = [];
 }

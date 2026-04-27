@@ -88,6 +88,25 @@ public class SearcherTests
     }
 
     [Fact]
+    public async Task WhenSearchingThenMatchesHaveSpansPopulated()
+    {
+        var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+        {
+            { @"C:\Test\File.txt", new MockFileData("no match\nhello world hello\n") }
+        });
+        var fileFilter = new MockFileFilter([@"C:\Test\File.txt"]);
+        var filter = new Filter(false, false, false, "hello");
+        var matches = new List<Match>();
+        var searcher = new Searcher(false, fileFilter, filter, fileSystem);
+
+        await foreach (var fileMatches in searcher.SearchAsync(new Progress<SearchProgress>(), CancellationToken.None))
+            matches.AddRange(fileMatches);
+
+        matches.Count.ShouldBe(1);
+        matches[0].Spans.ShouldBe([(0, 5), (12, 5)]);
+    }
+
+    [Fact]
     public void GetMatchSpans_PlainText_SingleMatch()
     {
         var searcher = MakeSearcher("hello");

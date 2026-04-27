@@ -109,7 +109,8 @@ public sealed class Searcher
                     foreach (var line in fileSystem.File.ReadLines(file, encoding))
                     {
                         lineCount++;
-                        if (filter.IsMatch(line))
+                        var spans = filter.GetMatchSpans(line);
+                        if (spans.Length > 0)
                         {
                             counter.IncrementMatchCount();
                             if (!matchedAtLeastOnce)
@@ -118,7 +119,7 @@ public sealed class Searcher
                                 matchedAtLeastOnce = true;
                             }
 
-                            matches.Add(new Match(file, lineCount, line));
+                            matches.Add(new Match(file, lineCount, line) { Spans = spans });
                         }
                     }
                 }
