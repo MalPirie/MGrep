@@ -50,6 +50,25 @@ public partial class MainWindow : Window
     {
         switch (msg)
         {
+            case 0x0086: // WM_NCACTIVATE — suppress grey border flash when the window
+            {           //   gains or loses focus.  Returning 1 tells Windows the NC
+                        //   area is already repainted, preventing the default repaint.
+                handled = true;
+                return new IntPtr(1);
+            }
+
+            case 0x0083: // WM_NCCALCSIZE — suppress the NC frame entirely so the
+            {           //   client area equals the full window rect in all states.
+                        //   WM_GETMINMAXINFO therefore targets the work area directly
+                        //   with no invisible-border offset needed.
+                if (wParam != IntPtr.Zero)
+                {
+                    handled = true;
+                    return IntPtr.Zero;
+                }
+                break;
+            }
+
             case 0x0084: // WM_NCHITTEST
             {
                 // Convert raw screen coordinates (physical pixels) to WPF logical pixels.
@@ -111,7 +130,8 @@ public partial class MainWindow : Window
                 {
                     var mi = new MONITORINFO { cbSize = (uint)Marshal.SizeOf<MONITORINFO>() };
                     GetMonitorInfo(monitor, ref mi);
-                    // ptMaxPosition is relative to the monitor's top-left corner.
+                    // WM_NCCALCSIZE returns 0 for all states, so client area == window
+                    // rect with no NC inset.  Target the work area exactly.
                     mmi.ptMaxPosition.x = mi.rcWork.Left - mi.rcMonitor.Left;
                     mmi.ptMaxPosition.y = mi.rcWork.Top  - mi.rcMonitor.Top;
                     mmi.ptMaxSize.x     = mi.rcWork.Right  - mi.rcWork.Left;
