@@ -1,7 +1,8 @@
 ###############################################################################
-# Set default behavior to automatically normalize line endings.
+# Enforce CRLF for all text files (Windows-native WPF project).
+# git will normalise line endings to CRLF on checkout on all platforms.
 ###############################################################################
-* text=auto
+* text=auto eol=crlf
 
 ###############################################################################
 # Set default behavior for command prompt diff.
