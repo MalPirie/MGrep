@@ -245,7 +245,7 @@
                             </ListView.ItemContainerStyle>
                         </ListView>
 
-                        <TextBlock x:Name="EmptyList" Text="No matches found" Visibility="Collapsed"/>
+                        <Label x:Name="EmptyList" Content="No matches found" Visibility="Collapsed" />
                     </Grid>
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding Matches.Count}" Value="0">
