@@ -37,6 +37,8 @@
     <SolidColorBrush x:Key="BrushAccentHover"         Color="{StaticResource MillimanOcean}" />
     <SolidColorBrush x:Key="BrushAccentPressed"       Color="{StaticResource MillimanOcean}" />
     <SolidColorBrush x:Key="BrushAccentDisabled"      Color="{StaticResource MillimanSlate}" />
+    <!-- Text on disabled primary button (grey bg) — White gives 4.5:1 on Slate ✅ -->
+    <SolidColorBrush x:Key="BrushAccentDisabledForeground" Color="{StaticResource MillimanWhite}" />
     <SolidColorBrush x:Key="BrushAccentSubtle"        Color="{StaticResource MillimanObsidianLight}" />
     <SolidColorBrush x:Key="BrushAccentText"          Color="{StaticResource MillimanSky}" />
 

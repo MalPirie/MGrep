@@ -36,6 +36,8 @@
     <SolidColorBrush x:Key="BrushAccentHover"         Color="{StaticResource MillimanObsidian}" />
     <SolidColorBrush x:Key="BrushAccentPressed"       Color="{StaticResource MillimanObsidianDark}" />
     <SolidColorBrush x:Key="BrushAccentDisabled"      Color="{StaticResource MillimanDarkenGray}" />
+    <!-- Text on disabled primary button (grey bg) — Obsidian gives 5.3:1 on DarkenGray ✅ -->
+    <SolidColorBrush x:Key="BrushAccentDisabledForeground" Color="{StaticResource MillimanObsidian}" />
     <SolidColorBrush x:Key="BrushAccentSubtle"        Color="{StaticResource MillimanHighlightBlueDark}" />
     <SolidColorBrush x:Key="BrushAccentText"          Color="{StaticResource MillimanOcean}" />
 

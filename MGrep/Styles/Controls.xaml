@@ -155,7 +155,7 @@
                             <Setter TargetName="ContentBorder" Property="Background"  Value="{DynamicResource BrushAccentDisabled}" />
                             <Setter TargetName="ContentBorder" Property="BorderBrush" Value="{DynamicResource BrushAccentDisabled}" />
                             <Setter TargetName="ContentPresenter" Property="TextElement.Foreground"
-                                    Value="{DynamicResource BrushForegroundDisabled}" />
+                                    Value="{DynamicResource BrushAccentDisabledForeground}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
