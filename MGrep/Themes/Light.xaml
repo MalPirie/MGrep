@@ -36,7 +36,7 @@
     <SolidColorBrush x:Key="BrushAccentHover"         Color="{StaticResource MillimanObsidian}" />
     <SolidColorBrush x:Key="BrushAccentPressed"       Color="{StaticResource MillimanObsidianDark}" />
     <SolidColorBrush x:Key="BrushAccentDisabled"      Color="{StaticResource MillimanDarkenGray}" />
-    <SolidColorBrush x:Key="BrushAccentSubtle"        Color="{StaticResource MillimanHighlightBlue}" />
+    <SolidColorBrush x:Key="BrushAccentSubtle"        Color="{StaticResource MillimanHighlightBlueDark}" />
     <SolidColorBrush x:Key="BrushAccentText"          Color="{StaticResource MillimanOcean}" />
 
     <!-- ── Borders & focus ─────────────────────────────────────────── -->
@@ -154,6 +154,6 @@
     <!-- Checked hover: same tint as checked (border is transparent so
          only the background changes; in light the fill already provides
          enough affordance) -->
-    <SolidColorBrush x:Key="BrushToggleCheckedHoverBackground" Color="{StaticResource MillimanHighlightBlueDark}" />
+    <SolidColorBrush x:Key="BrushToggleCheckedHoverBackground" Color="{StaticResource MillimanHighlightBlueDeeper}" />
 
 </ResourceDictionary>

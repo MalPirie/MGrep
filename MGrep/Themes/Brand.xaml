@@ -71,8 +71,11 @@
     <!-- Subtle blue tint — selection highlight, hovered table row          -->
     <Color x:Key="MillimanHighlightBlue">#E5F0FF</Color>
 
-    <!-- Deeper blue tint — toggle button checked-hover (20% Ocean tint)   -->
+    <!-- Deeper blue tints — toggle button checked states (Ocean tints)    -->
+    <!-- 20% Ocean tint: checked background                                -->
     <Color x:Key="MillimanHighlightBlueDark">#CCE4FF</Color>
+    <!-- 30% Ocean tint: checked hover background                          -->
+    <Color x:Key="MillimanHighlightBlueDeeper">#B3D7F2</Color>
 
     <!--
     ── DARK-THEME LAYERING ─────────────────────────────────────────────────
