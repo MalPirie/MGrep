@@ -146,14 +146,6 @@
     <SolidColorBrush x:Key="SystemFillColorCriticalBrush"       Color="{StaticResource MillimanError}" />
     <SolidColorBrush x:Key="SystemFillColorNeutralBrush"        Color="{StaticResource MillimanSlate}" />
     <SolidColorBrush x:Key="SystemFillColorSolidNeutralBrush"   Color="{StaticResource MillimanDarkenGray}" />
-    <!-- ── Toggle button checked state ──────────────────────────────── -->
-    <!-- WPF-UI defaults these to SystemAccentColorPrimary / TextOnAccentFillColorPrimary
-         (raw Color keys not covered by our Brush overrides). Override with
-         brand tokens to guarantee contrast on our accent background.        -->
-    <SolidColorBrush x:Key="ToggleButtonBackgroundChecked"            Color="{StaticResource MillimanOcean}" />
-    <SolidColorBrush x:Key="ToggleButtonForegroundChecked"            Color="{StaticResource MillimanWhite}" />
-    <SolidColorBrush x:Key="ToggleButtonForegroundCheckedPointerOver" Color="{StaticResource MillimanObsidian}" />
-
     <!-- ── Match highlight (search span background) ─────────────────── -->
     <SolidColorBrush x:Key="BrushMatchHighlightBackground" Color="{StaticResource MillimanHighlightBlue}" />
     <SolidColorBrush x:Key="BrushMatchHighlightForeground" Color="{StaticResource MillimanOcean}" />

@@ -191,18 +191,101 @@
     </Style>
 
     <!--
-        ToggleButton — the WPF-UI template sets TextElement.Foreground on the
-        ContentPresenter inside the template, but TextBlock content inherits
-        Foreground from the Button.Foreground DP through the logical tree, so
-        the icon colour never changes.  Setting Foreground on the ToggleButton
-        itself guarantees the icon follows the checked state.
+        ToggleButtonStyle — outline-accent "tinted chip" pattern.
+
+        Unchecked:      transparent fill, subtle border, body-text icon colour.
+        Unchecked hover: subtle surface tint, slightly stronger border.
+        Checked:        BrushAccentSubtle fill (soft tint), BrushAccent border + icon.
+        Checked hover:  same tint fill, BrushAccentHover border (slightly darker accent).
+        Checked pressed: same tint fill, BrushAccentPressed border.
+
+        This intentionally differs from PrimaryButtonStyle (solid accent fill) to
+        preserve visual hierarchy: filters are secondary to the primary action.
+
+        OverridesDefaultStyle=True prevents the WPF-UI implicit ToggleButton template
+        from fighting with this one.
     -->
-    <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Type ToggleButton}}">
-        <Style.Triggers>
-            <Trigger Property="IsChecked" Value="True">
-                <Setter Property="Foreground" Value="{DynamicResource ToggleButtonForegroundChecked}" />
-            </Trigger>
-        </Style.Triggers>
+    <Style TargetType="{x:Type ToggleButton}">
+        <Setter Property="OverridesDefaultStyle"      Value="True" />
+        <Setter Property="FocusVisualStyle"           Value="{DynamicResource DefaultControlFocusVisualStyle}" />
+        <Setter Property="Background"                 Value="Transparent" />
+        <Setter Property="Foreground"                 Value="{DynamicResource TextFillColorPrimaryBrush}" />
+        <Setter Property="BorderBrush"                Value="{DynamicResource ControlStrokeColorDefaultBrush}" />
+        <Setter Property="BorderThickness"            Value="1" />
+        <Setter Property="Padding"                    Value="7,5" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment"   Value="Center" />
+        <Setter Property="FontSize"                   Value="{DynamicResource ControlContentThemeFontSize}" />
+        <Setter Property="Border.CornerRadius"        Value="{DynamicResource ControlCornerRadius}" />
+        <Setter Property="SnapsToDevicePixels"        Value="True" />
+        <Setter Property="Cursor"                     Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border x:Name="Bd"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding Border.CornerRadius}"
+                            Padding="{TemplateBinding Padding}"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                        <ContentPresenter x:Name="Cp"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          RecognizesAccessKey="True"
+                                          TextElement.Foreground="{TemplateBinding Foreground}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+
+                        <!-- Unchecked hover -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked"   Value="False" />
+                                <Condition Property="IsMouseOver" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Bd" Property="Background"   Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                            <Setter TargetName="Bd" Property="BorderBrush"  Value="{DynamicResource ControlStrokeColorSecondaryBrush}" />
+                        </MultiTrigger>
+
+                        <!-- Checked -->
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Foreground"                   Value="{DynamicResource BrushAccent}" />
+                            <Setter TargetName="Bd" Property="Background"   Value="{DynamicResource BrushAccentSubtle}" />
+                            <Setter TargetName="Bd" Property="BorderBrush"  Value="{DynamicResource BrushAccent}" />
+                        </Trigger>
+
+                        <!-- Checked hover -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked"   Value="True" />
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsPressed"   Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Foreground"                   Value="{DynamicResource BrushAccent}" />
+                            <Setter TargetName="Bd" Property="Background"   Value="{DynamicResource BrushAccentSubtle}" />
+                            <Setter TargetName="Bd" Property="BorderBrush"  Value="{DynamicResource BrushAccentHover}" />
+                        </MultiTrigger>
+
+                        <!-- Checked pressed -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="True" />
+                                <Condition Property="IsPressed" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Foreground"                   Value="{DynamicResource BrushAccent}" />
+                            <Setter TargetName="Bd" Property="Background"   Value="{DynamicResource BrushAccentSubtle}" />
+                            <Setter TargetName="Bd" Property="BorderBrush"  Value="{DynamicResource BrushAccentPressed}" />
+                        </MultiTrigger>
+
+                        <!-- Disabled -->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Bd" Property="Opacity" Value="0.4" />
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <!-- ═══════════════════════════════════════════════════════════════════
