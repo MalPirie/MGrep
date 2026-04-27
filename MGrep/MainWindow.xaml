@@ -111,7 +111,7 @@
 
             </StackPanel>
         </Grid>
-        <Grid DockPanel.Dock="Top" Margin="4">
+        <Grid DockPanel.Dock="Top" Margin="12">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
@@ -208,7 +208,7 @@
         <ContentPresenter Content="{Binding}">
             <ContentPresenter.ContentTemplate>
                 <DataTemplate>
-                    <Grid Margin="4">
+                    <Grid Margin="12,0,12,12">
                         <ListView x:Name="List"
                                   ItemsSource="{Binding Matches}"
                                   IsSynchronizedWithCurrentItem="True"
