@@ -217,7 +217,13 @@
                                 <GridView>
                                     <GridViewColumn Header="File" DisplayMemberBinding="{Binding Name}" />
                                     <GridViewColumn Header="Line" DisplayMemberBinding="{Binding LineNumber}" />
-                                    <GridViewColumn Header="Text" DisplayMemberBinding="{Binding Text}" />
+                                    <GridViewColumn Header="Text">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock local:TextHighlighter.Match="{Binding}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
                                 </GridView>
                             </ListView.View>
                             <ListView.ItemContainerStyle>

@@ -146,5 +146,8 @@
     <SolidColorBrush x:Key="SystemFillColorCriticalBrush"       Color="{StaticResource MillimanError}" />
     <SolidColorBrush x:Key="SystemFillColorNeutralBrush"        Color="{StaticResource MillimanSlate}" />
     <SolidColorBrush x:Key="SystemFillColorSolidNeutralBrush"   Color="{StaticResource MillimanDarkenGray}" />
+    <!-- ── Match highlight (search span background) ─────────────────── -->
+    <SolidColorBrush x:Key="BrushMatchHighlightBackground" Color="{StaticResource MillimanHighlightBlue}" />
+    <SolidColorBrush x:Key="BrushMatchHighlightForeground" Color="{StaticResource MillimanOcean}" />
 
 </ResourceDictionary>
