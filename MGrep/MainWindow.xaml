@@ -164,7 +164,7 @@
                         <TextBlock FontFamily="pack://application:,,,/FluentSystemIcons-Regular.ttf#FluentSystemIcons-Regular" FontSize="14" Text="&#xed68;" />
                     </ToggleButton>
                     <ToggleButton IsChecked="{Binding UseRegex}" Margin="4,0,0,0" ToolTip="Use regular expression">
-                        <TextBlock Text=".*" FontSize="11" FontWeight="SemiBold" />
+                        <TextBlock FontFamily="pack://application:,,,/FluentSystemIcons-Regular.ttf#FluentSystemIcons-Regular" FontSize="14" Text="&#xe1d7;" />
                     </ToggleButton>
                     <ToggleButton IsChecked="{Binding IncludeSubfolders}"
                                   Margin="12,0,0,0" ToolTip="Include subfolders">
