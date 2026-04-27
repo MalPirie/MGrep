@@ -250,11 +250,12 @@
                             <Setter TargetName="Bd" Property="BorderBrush"  Value="{DynamicResource ControlStrokeColorSecondaryBrush}" />
                         </MultiTrigger>
 
-                        <!-- Checked — tinted fill, no border (avoids border-stroke corner fading) -->
+                        <!-- Checked — tinted fill, transparent border (avoids border-stroke corner fading;
+                             BorderThickness kept at 1 so the button doesn't shrink vs unchecked) -->
                         <Trigger Property="IsChecked" Value="True">
                             <Setter Property="Foreground"                        Value="{DynamicResource BrushAccent}" />
                             <Setter TargetName="Bd" Property="Background"        Value="{DynamicResource BrushAccentSubtle}" />
-                            <Setter TargetName="Bd" Property="BorderThickness"   Value="0" />
+                            <Setter TargetName="Bd" Property="BorderBrush"       Value="Transparent" />
                         </Trigger>
 
                         <!-- Checked hover -->
@@ -266,7 +267,7 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="Foreground"                        Value="{DynamicResource BrushAccent}" />
                             <Setter TargetName="Bd" Property="Background"        Value="{DynamicResource BrushAccentSubtle}" />
-                            <Setter TargetName="Bd" Property="BorderThickness"   Value="0" />
+                            <Setter TargetName="Bd" Property="BorderBrush"       Value="Transparent" />
                         </MultiTrigger>
 
                         <!-- Checked pressed -->
@@ -277,7 +278,7 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="Foreground"                        Value="{DynamicResource BrushAccent}" />
                             <Setter TargetName="Bd" Property="Background"        Value="{DynamicResource BrushAccentSubtle}" />
-                            <Setter TargetName="Bd" Property="BorderThickness"   Value="0" />
+                            <Setter TargetName="Bd" Property="BorderBrush"       Value="Transparent" />
                         </MultiTrigger>
 
                         <!-- Disabled -->
