@@ -149,7 +149,4 @@
     <SolidColorBrush x:Key="BrushMatchHighlightBackground" Color="{StaticResource MillimanObsidianBorder}" />
     <SolidColorBrush x:Key="BrushMatchHighlightForeground" Color="{StaticResource MillimanSky}" />
 
-    <!-- ── Toggle button checked hover border ───────────────────────── -->
-    <SolidColorBrush x:Key="BrushToggleCheckedHoverBorder" Color="{StaticResource MillimanOcean}" />
-
 </ResourceDictionary>

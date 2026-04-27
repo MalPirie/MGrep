@@ -250,11 +250,11 @@
                             <Setter TargetName="Bd" Property="BorderBrush"  Value="{DynamicResource ControlStrokeColorSecondaryBrush}" />
                         </MultiTrigger>
 
-                        <!-- Checked -->
+                        <!-- Checked — tinted fill, no border (avoids border-stroke corner fading) -->
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Foreground"                   Value="{DynamicResource BrushAccent}" />
-                            <Setter TargetName="Bd" Property="Background"   Value="{DynamicResource BrushAccentSubtle}" />
-                            <Setter TargetName="Bd" Property="BorderBrush"  Value="{DynamicResource BrushAccent}" />
+                            <Setter Property="Foreground"                        Value="{DynamicResource BrushAccent}" />
+                            <Setter TargetName="Bd" Property="Background"        Value="{DynamicResource BrushAccentSubtle}" />
+                            <Setter TargetName="Bd" Property="BorderThickness"   Value="0" />
                         </Trigger>
 
                         <!-- Checked hover -->
@@ -264,9 +264,9 @@
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsPressed"   Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter Property="Foreground"                   Value="{DynamicResource BrushAccent}" />
-                            <Setter TargetName="Bd" Property="Background"   Value="{DynamicResource BrushAccentSubtle}" />
-                            <Setter TargetName="Bd" Property="BorderBrush"  Value="{DynamicResource BrushToggleCheckedHoverBorder}" />
+                            <Setter Property="Foreground"                        Value="{DynamicResource BrushAccent}" />
+                            <Setter TargetName="Bd" Property="Background"        Value="{DynamicResource BrushAccentSubtle}" />
+                            <Setter TargetName="Bd" Property="BorderThickness"   Value="0" />
                         </MultiTrigger>
 
                         <!-- Checked pressed -->
@@ -275,9 +275,9 @@
                                 <Condition Property="IsChecked" Value="True" />
                                 <Condition Property="IsPressed" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter Property="Foreground"                   Value="{DynamicResource BrushAccent}" />
-                            <Setter TargetName="Bd" Property="Background"   Value="{DynamicResource BrushAccentSubtle}" />
-                            <Setter TargetName="Bd" Property="BorderBrush"  Value="{DynamicResource BrushAccentPressed}" />
+                            <Setter Property="Foreground"                        Value="{DynamicResource BrushAccent}" />
+                            <Setter TargetName="Bd" Property="Background"        Value="{DynamicResource BrushAccentSubtle}" />
+                            <Setter TargetName="Bd" Property="BorderThickness"   Value="0" />
                         </MultiTrigger>
 
                         <!-- Disabled -->
