@@ -179,9 +179,9 @@
                     </ToggleButton>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
-                    <Button IsDefault="True" Width="120" BorderThickness="2">
+                    <Button IsDefault="True" Width="120">
                         <Button.Style>
-                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource PrimaryButtonStyle}">
                                 <Setter Property="Content" Value="Search" />
                                 <Setter Property="Command" Value="{Binding SearchCommand}" />
                                 <Style.Triggers>

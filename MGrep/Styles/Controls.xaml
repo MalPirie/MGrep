@@ -93,6 +93,77 @@
     </Style>
 
     <!--
+        PrimaryButtonStyle — accent-filled button for the primary action.
+        Mirrors the WPF-UI DefaultButtonStyle template but substitutes
+        BrushAccent* semantic tokens so it responds to theme changes.
+    -->
+    <Style x:Key="PrimaryButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="FocusVisualStyle"          Value="{DynamicResource DefaultControlFocusVisualStyle}" />
+        <Setter Property="Background"                Value="{DynamicResource BrushAccent}" />
+        <Setter Property="Foreground"                Value="{DynamicResource BrushForegroundOnAccent}" />
+        <Setter Property="BorderBrush"               Value="{DynamicResource BrushAccent}" />
+        <Setter Property="BorderThickness"           Value="1" />
+        <Setter Property="Padding"                   Value="11,5,11,6" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment"  Value="Center" />
+        <Setter Property="FontSize"                  Value="{DynamicResource ControlContentThemeFontSize}" />
+        <Setter Property="FontWeight"                Value="SemiBold" />
+        <Setter Property="Border.CornerRadius"       Value="{DynamicResource ControlCornerRadius}" />
+        <Setter Property="SnapsToDevicePixels"       Value="True" />
+        <Setter Property="OverridesDefaultStyle"     Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="ContentBorder"
+                            Width="{TemplateBinding Width}"
+                            Height="{TemplateBinding Height}"
+                            MinWidth="{TemplateBinding MinWidth}"
+                            MinHeight="{TemplateBinding MinHeight}"
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding Border.CornerRadius}">
+                        <ContentPresenter x:Name="ContentPresenter"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          RecognizesAccessKey="True"
+                                          TextElement.Foreground="{TemplateBinding Foreground}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsPressed"   Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="ContentBorder" Property="Background"  Value="{DynamicResource BrushAccentHover}" />
+                            <Setter TargetName="ContentBorder" Property="BorderBrush" Value="{DynamicResource BrushAccentHover}" />
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsPressed"   Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="ContentBorder" Property="Background"  Value="{DynamicResource BrushAccentPressed}" />
+                            <Setter TargetName="ContentBorder" Property="BorderBrush" Value="{DynamicResource BrushAccentPressed}" />
+                        </MultiTrigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="ContentBorder" Property="Background"  Value="{DynamicResource BrushAccentDisabled}" />
+                            <Setter TargetName="ContentBorder" Property="BorderBrush" Value="{DynamicResource BrushAccentDisabled}" />
+                            <Setter TargetName="ContentPresenter" Property="TextElement.Foreground"
+                                    Value="{DynamicResource BrushForegroundDisabled}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--
         StatusBar — flat (no rounded corners) themed background/text.
     -->
     <Style TargetType="{x:Type StatusBar}">
@@ -117,6 +188,213 @@
     <Style TargetType="{x:Type StatusBarItem}"
            BasedOn="{StaticResource {x:Type StatusBarItem}}">
         <Setter Property="Foreground" Value="{DynamicResource BrushStatusBarText}" />
+    </Style>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         LISTVIEW — Fluent 2
+         ListView, GridViewColumnHeader, and ListViewItem all use semantic
+         brush tokens so they respond correctly to light/dark theme switches.
+    ═══════════════════════════════════════════════════════════════════════ -->
+
+    <!--
+        GridViewColumnHeaderGripperStyle — 1 px separator line used as the
+        column-resize thumb.  Must be defined before the header template that
+        references it via StaticResource.
+    -->
+    <Style x:Key="GridViewColumnHeaderGripperStyle" TargetType="{x:Type Thumb}">
+        <Setter Property="Width"    Value="8" />
+        <Setter Property="Background" Value="{DynamicResource BrushBorder}" />
+        <Setter Property="Cursor"   Value="SizeWE" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <!-- Transparent hit-area; 1 px visible line centred inside -->
+                    <Border Background="Transparent" Padding="3,4">
+                        <Rectangle Width="1" Fill="{TemplateBinding Background}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--
+        ListView — Fluent 2 container.
+        Preserves GridView.GridViewScrollViewerStyleKey so the header row is
+        injected correctly by the GridView presentation mode.
+    -->
+    <Style TargetType="{x:Type ListView}">
+        <Setter Property="Background"       Value="{DynamicResource BrushSurface}" />
+        <Setter Property="BorderBrush"      Value="{DynamicResource BrushBorder}" />
+        <Setter Property="BorderThickness"  Value="1" />
+        <Setter Property="Foreground"       Value="{DynamicResource BrushForegroundPrimary}" />
+        <Setter Property="FontFamily"       Value="{StaticResource FontFamilyBase}" />
+        <Setter Property="FontSize"         Value="{StaticResource FontSizeBody}" />
+        <Setter Property="Padding"          Value="0" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility"   Value="Auto" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListView}">
+                    <Border x:Name="Bd"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{StaticResource CornerRadiusMedium}"
+                            SnapsToDevicePixels="True">
+                        <!--
+                            GridView.GridViewScrollViewerStyleKey is the key contract
+                            that tells WPF to inject the GridViewHeaderRowPresenter.
+                            This MUST be preserved; removing it breaks column headers.
+                        -->
+                        <ScrollViewer Padding="{TemplateBinding Padding}"
+                                      Style="{DynamicResource {x:Static GridView.GridViewScrollViewerStyleKey}}"
+                                      Focusable="False">
+                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </ScrollViewer>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsGrouping" Value="True">
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Bd" Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--
+        GridViewColumnHeader — flat Fluent 2 column header.
+        - Subtle bottom border separates header from rows.
+        - Hover/pressed states use SubtleFill tokens.
+        - Role=Floating: column being dragged (semi-transparent ghost).
+        - Role=Padding: empty filler at the right end of the header strip
+          (matches header background; no gripper or content).
+    -->
+    <Style TargetType="{x:Type GridViewColumnHeader}">
+        <Setter Property="Background"      Value="{DynamicResource BrushSurface}" />
+        <Setter Property="Foreground"      Value="{DynamicResource BrushForegroundPrimary}" />
+        <Setter Property="FontFamily"      Value="{StaticResource FontFamilyBase}" />
+        <Setter Property="FontSize"        Value="{StaticResource FontSizeBody}" />
+        <Setter Property="FontWeight"      Value="{StaticResource FontWeightSemiBold}" />
+        <Setter Property="Padding"         Value="8,6" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment"   Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                    <Grid SnapsToDevicePixels="True">
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{DynamicResource BrushBorder}"
+                                BorderThickness="0,0,0,1"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter x:Name="HeaderContent"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              RecognizesAccessKey="True"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Border>
+                        <Thumb x:Name="PART_HeaderGripper"
+                               HorizontalAlignment="Right"
+                               Style="{StaticResource GridViewColumnHeaderGripperStyle}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background"
+                                    Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Bd" Property="Background"
+                                    Value="{DynamicResource SubtleFillColorTertiaryBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <!-- Ghost appearance while dragging a column -->
+            <Trigger Property="Role" Value="Floating">
+                <Setter Property="Opacity" Value="0.6" />
+            </Trigger>
+            <!-- Filler header at the right — match background, no content, no gripper -->
+            <Trigger Property="Role" Value="Padding">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                            <Border Background="{DynamicResource BrushSurface}"
+                                    BorderBrush="{DynamicResource BrushBorder}"
+                                    BorderThickness="0,0,0,1" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--
+        ListViewItem — Fluent 2 row.
+        Trigger order is intentional: selected triggers come last and therefore
+        win over the hover trigger when both conditions are true simultaneously.
+
+        Selection states:
+          Hover only            → SubtleFillColorSecondary
+          Selected + inactive   → SubtleFillColorTertiary  (list not focused)
+          Selected + active     → AccentFillColorDefault   (list focused)
+    -->
+    <Style TargetType="{x:Type ListViewItem}">
+        <Setter Property="Background"      Value="Transparent" />
+        <Setter Property="Foreground"      Value="{DynamicResource BrushForegroundPrimary}" />
+        <Setter Property="FontFamily"      Value="{StaticResource FontFamilyBase}" />
+        <Setter Property="FontSize"        Value="{StaticResource FontSizeBody}" />
+        <Setter Property="Padding"         Value="8,5" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                    <Border x:Name="Bd"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}"
+                            SnapsToDevicePixels="True">
+                        <GridViewRowPresenter Columns="{TemplateBinding GridView.ColumnCollection}"
+                                             Content="{TemplateBinding Content}"
+                                             VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!-- Hover — lowest priority; overridden by selection triggers below -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background"
+                                    Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                        </Trigger>
+                        <!-- Selected + list not focused (inactive selection) -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected"              Value="True" />
+                                <Condition Property="Selector.IsSelectionActive" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Bd" Property="Background"
+                                    Value="{DynamicResource SubtleFillColorTertiaryBrush}" />
+                        </MultiTrigger>
+                        <!-- Selected + list focused (active selection) — highest priority -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected"              Value="True" />
+                                <Condition Property="Selector.IsSelectionActive" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Bd" Property="Background"
+                                    Value="{DynamicResource AccentFillColorDefaultBrush}" />
+                            <Setter Property="Foreground"
+                                    Value="{DynamicResource TextOnAccentFillColorPrimaryBrush}" />
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>
