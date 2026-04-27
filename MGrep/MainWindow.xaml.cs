@@ -109,7 +109,7 @@ public partial class MainWindow : Window
                     var element = hit?.VisualHit as DependencyObject;
                     while (element != null && element != this)
                     {
-                        if (element is Button) break;          // → HTCLIENT (default)
+                        if (element is Button || element == AppIconImage) break; // → HTCLIENT
                         element = VisualTreeHelper.GetParent(element);
                     }
                     if (element == null || element == this)
@@ -151,6 +151,21 @@ public partial class MainWindow : Window
     private void MinimizeWindow(object s, ExecutedRoutedEventArgs e) => SystemCommands.MinimizeWindow(this);
     private void MaximizeWindow(object s, ExecutedRoutedEventArgs e) => SystemCommands.MaximizeWindow(this);
     private void RestoreWindow (object s, ExecutedRoutedEventArgs e) => SystemCommands.RestoreWindow(this);
+
+    private void AppIcon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        e.Handled = true;
+        if (e.ClickCount >= 2)
+        {
+            SystemCommands.CloseWindow(this);
+        }
+        else
+        {
+            var icon = (FrameworkElement)sender;
+            var point = icon.PointToScreen(new Point(0, icon.ActualHeight));
+            SystemCommands.ShowSystemMenu(this, point);
+        }
+    }
 
     // ── Window options ────────────────────────────────────────────────────
 

@@ -41,13 +41,16 @@
               Height="32"
               Background="{DynamicResource BrushBackground}">
 
-            <!-- Application icon, far left -->
-            <Image Source="/MGrep;component/ApplicationIcon.ico"
+            <!-- Application icon — left-click shows system menu; double-click closes -->
+            <Image x:Name="AppIconImage"
+                   Source="/MGrep;component/ApplicationIcon.ico"
                    Width="16" Height="16"
                    Margin="8,0,0,0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"
-                   RenderOptions.BitmapScalingMode="HighQuality" />
+                   RenderOptions.BitmapScalingMode="HighQuality"
+                   Cursor="Arrow"
+                   MouseLeftButtonDown="AppIcon_MouseLeftButtonDown" />
 
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 
