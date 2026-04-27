@@ -190,6 +190,21 @@
         <Setter Property="Foreground" Value="{DynamicResource BrushStatusBarText}" />
     </Style>
 
+    <!--
+        ToggleButton — the WPF-UI template sets TextElement.Foreground on the
+        ContentPresenter inside the template, but TextBlock content inherits
+        Foreground from the Button.Foreground DP through the logical tree, so
+        the icon colour never changes.  Setting Foreground on the ToggleButton
+        itself guarantees the icon follows the checked state.
+    -->
+    <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource {x:Type ToggleButton}}">
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource ToggleButtonForegroundChecked}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     <!-- ═══════════════════════════════════════════════════════════════════
          LISTVIEW — Fluent 2
          ListView, GridViewColumnHeader, and ListViewItem all use semantic

@@ -146,9 +146,9 @@
     <SolidColorBrush x:Key="SystemFillColorNeutralBrush"        Color="{StaticResource MillimanDarkenGray}" />
     <SolidColorBrush x:Key="SystemFillColorSolidNeutralBrush"   Color="{StaticResource MillimanSlate}" />
     <!-- ── Toggle button checked state ──────────────────────────────── -->
-    <SolidColorBrush x:Key="ToggleButtonBackgroundChecked"            Color="{StaticResource MillimanSky}" />
-    <SolidColorBrush x:Key="ToggleButtonForegroundChecked"            Color="{StaticResource MillimanObsidian}" />
-    <SolidColorBrush x:Key="ToggleButtonForegroundCheckedPointerOver" Color="{StaticResource MillimanObsidianDark}" />
+    <SolidColorBrush x:Key="ToggleButtonBackgroundChecked"            Color="{StaticResource MillimanOcean}" />
+    <SolidColorBrush x:Key="ToggleButtonForegroundChecked"            Color="{StaticResource MillimanWhite}" />
+    <SolidColorBrush x:Key="ToggleButtonForegroundCheckedPointerOver" Color="{StaticResource MillimanObsidian}" />
 
     <!-- ── Match highlight (search span background) ─────────────────── -->
     <SolidColorBrush x:Key="BrushMatchHighlightBackground" Color="{StaticResource MillimanObsidianBorder}" />
