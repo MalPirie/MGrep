@@ -266,7 +266,7 @@
                             </MultiTrigger.Conditions>
                             <Setter Property="Foreground"                   Value="{DynamicResource BrushAccent}" />
                             <Setter TargetName="Bd" Property="Background"   Value="{DynamicResource BrushAccentSubtle}" />
-                            <Setter TargetName="Bd" Property="BorderBrush"  Value="{DynamicResource BrushAccentHover}" />
+                            <Setter TargetName="Bd" Property="BorderBrush"  Value="{DynamicResource BrushToggleCheckedHoverBorder}" />
                         </MultiTrigger>
 
                         <!-- Checked pressed -->

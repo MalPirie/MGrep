@@ -150,4 +150,8 @@
     <SolidColorBrush x:Key="BrushMatchHighlightBackground" Color="{StaticResource MillimanHighlightBlue}" />
     <SolidColorBrush x:Key="BrushMatchHighlightForeground" Color="{StaticResource MillimanOcean}" />
 
+    <!-- ── Toggle button checked hover border ───────────────────────── -->
+    <!-- Dark blue rather than near-black, so hover reads as blue        -->
+    <SolidColorBrush x:Key="BrushToggleCheckedHoverBorder" Color="{StaticResource MillimanOceanDark}" />
+
 </ResourceDictionary>

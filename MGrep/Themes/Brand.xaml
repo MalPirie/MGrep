@@ -33,6 +33,10 @@
     <!-- Contrast on White: 4.53:1 ✅ AA  |  on Cloud: 4.12:1 ⚠ large text   -->
     <Color x:Key="MillimanOcean">#0078D4</Color>
 
+    <!-- OceanDark — pressed/hover shade of Ocean (Fluent 2 dark-blue hover)   -->
+    <!-- Contrast on White: 7.1:1 ✅ AA  |  on Cloud: 6.4:1 ✅ AA             -->
+    <Color x:Key="MillimanOceanDark">#005A9E</Color>
+
     <!-- Obsidian — dark navy (body text, dark surfaces, primary button hover)  -->
     <!-- Contrast on White: 14.7:1 ✅ AAA  |  on Cloud: 13.3:1 ✅ AAA         -->
     <Color x:Key="MillimanObsidian">#222B36</Color>
