@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Linq;
@@ -10,6 +10,25 @@ using System.Threading.Tasks.Dataflow;
 
 namespace MGrep;
 
+/// <summary>
+/// Searches a filtered set of files for lines that match a <see cref="Filter"/>
+/// and streams batched results back to the caller as an async enumerable.
+/// </summary>
+/// <remarks>
+/// Internally uses TPL Dataflow:
+/// <list type="bullet">
+///   <item><description>
+///     A <see cref="TransformManyBlock{TInput,TOutput}"/> expands the <see cref="IFileFilter"/>
+///     into individual file paths (single-threaded).
+///   </description></item>
+///   <item><description>
+///     A <see cref="TransformBlock{TInput,TOutput}"/> processes each file in parallel
+///     (up to <see cref="Environment.ProcessorCount"/> concurrent workers).
+///   </description></item>
+/// </list>
+/// A <see cref="PeriodicTimer"/> fires every second to emit progress reports while the
+/// pipeline is running.
+/// </remarks>
 public sealed class Searcher
 {
     private readonly IFileSystem fileSystem;
@@ -17,11 +36,15 @@ public sealed class Searcher
     private readonly Filter filter;
     private readonly IFileFilter fileFilter;
 
-    public Searcher(bool includeBinaryFiles, IFileFilter fileFilter, Filter filter) : 
+    /// <param name="includeBinaryFiles">
+    ///   When <see langword="true"/>, files that do not appear to be text are still searched.
+    /// </param>
+    public Searcher(bool includeBinaryFiles, IFileFilter fileFilter, Filter filter) :
         this(includeBinaryFiles, fileFilter, filter, new FileSystem())
     {
     }
 
+    /// <summary>Overload that accepts an injectable <see cref="IFileSystem"/> for testing.</summary>
     public Searcher(bool includeBinaryFiles, IFileFilter fileFilter, Filter filter, IFileSystem fileSystem)
     {
         this.fileSystem = fileSystem;
@@ -36,16 +59,21 @@ public sealed class Searcher
     /// </summary>
     public (int Start, int Length)[] GetMatchSpans(string line) => filter.GetMatchSpans(line);
 
-    public async IAsyncEnumerable<List<Match>> SearchAsync(IProgress<SearchProgress> progress, [EnumeratorCancellation] CancellationToken cancellationToken)
+    /// <summary>
+    /// Asynchronously searches all files accepted by the <see cref="IFileFilter"/>,
+    /// yielding batches of <see cref="Match"/> items as they are found.
+    /// Progress is reported approximately once per second via <paramref name="progress"/>.
+    /// </summary>
+    public async IAsyncEnumerable<List<Match>> SearchAsync(
+        IProgress<SearchProgress> progress,
+        [EnumeratorCancellation] CancellationToken cancellationToken)
     {
         var counter = new ProgressCounter();
         var searchBlock = MakeSearchBlock(counter);
 
+        // Feed file paths from the filter into the search block.
         var listBlock = new TransformManyBlock<IFileFilter, string>(ExecuteFileFilter);
-        listBlock.LinkTo(searchBlock, new DataflowLinkOptions
-        {
-            PropagateCompletion = true
-        });
+        listBlock.LinkTo(searchBlock, new DataflowLinkOptions { PropagateCompletion = true });
         listBlock.Post(fileFilter);
         listBlock.Complete();
 
@@ -54,6 +82,8 @@ public sealed class Searcher
 
         await using var i = searchBlock.ReceiveAllAsync(cancellationToken).GetAsyncEnumerator(cancellationToken);
         var it = i.MoveNextAsync().AsTask();
+
+        // Race the next batch against the next periodic tick — whichever arrives first is handled.
         while (!cancellationToken.IsCancellationRequested)
         {
             var t = await Task.WhenAny(it, pt).ConfigureAwait(false);
@@ -79,11 +109,10 @@ public sealed class Searcher
         }
 
         counter.SetState(cancellationToken.IsCancellationRequested ? SearchState.Cancelled : SearchState.Completed);
-
         progress.Report(counter.ForProgress());
 
-        // If the MoveNextAsync is still running, for example after a cancellation, then the DisposeAsync will
-        // throw NotSupportedException, so wait for it to complete.
+        // If MoveNextAsync is still in-flight (e.g. after cancellation), wait for it to finish
+        // before the async enumerator is disposed — otherwise DisposeAsync throws NotSupportedException.
         await it;
     }
 
@@ -95,6 +124,10 @@ public sealed class Searcher
         }
     }
 
+    /// <summary>
+    /// Builds the parallel search block that reads each file, detects encoding, and
+    /// returns a list of matching lines (may be empty for files with no matches).
+    /// </summary>
     private TransformBlock<string, List<Match>> MakeSearchBlock(ProgressCounter counter) =>
         new(file =>
         {
@@ -127,7 +160,6 @@ public sealed class Searcher
                 {
                     counter.IncrementFileIgnoreCount();
                 }
-
             }
             catch
             {
@@ -135,11 +167,17 @@ public sealed class Searcher
             }
 
             return matches;
-        }, new ExecutionDataflowBlockOptions
+        },
+        new ExecutionDataflowBlockOptions
         {
             MaxDegreeOfParallelism = Environment.ProcessorCount
         });
 
+    /// <summary>
+    /// Determines whether <paramref name="path"/> is a text file by inspecting its BOM
+    /// and checking for null bytes (binary indicator).
+    /// Sets <paramref name="encoding"/> to the detected encoding (defaults to system default).
+    /// </summary>
     private bool IsTextFile(string path, out Encoding encoding)
     {
         encoding = Encoding.Default;
@@ -171,6 +209,7 @@ public sealed class Searcher
         return !Equals(encoding, Encoding.Default) || buffer[..length].All(b => b != 0x00);
     }
 
+    /// <summary>Thread-safe counters used to build <see cref="SearchProgress"/> snapshots.</summary>
     private sealed class ProgressCounter
     {
         private readonly DateTime started = DateTime.UtcNow;
@@ -183,11 +222,11 @@ public sealed class Searcher
         private SearchState state = SearchState.Searching;
         private DateTime completed = DateTime.MinValue;
 
-        public void IncrementFileCount() => Interlocked.Increment(ref fileCount);
+        public void IncrementFileCount()       => Interlocked.Increment(ref fileCount);
         public void IncrementFileIgnoreCount() => Interlocked.Increment(ref fileIgnoreCount);
-        public void IncrementFileMatchCount() => Interlocked.Increment(ref fileMatchCount);
-        public void IncrementErrorCount() => Interlocked.Increment(ref errorCount);
-        public void IncrementMatchCount() => Interlocked.Increment(ref matchCount);
+        public void IncrementFileMatchCount()  => Interlocked.Increment(ref fileMatchCount);
+        public void IncrementErrorCount()      => Interlocked.Increment(ref errorCount);
+        public void IncrementMatchCount()      => Interlocked.Increment(ref matchCount);
 
         public void SetState(SearchState newState)
         {
@@ -198,7 +237,7 @@ public sealed class Searcher
             }
         }
 
-        public SearchProgress ForProgress()  => 
+        public SearchProgress ForProgress() =>
             new(fileCount, fileIgnoreCount, fileMatchCount, errorCount, matchCount, state,
                 (completed == DateTime.MinValue ? DateTime.UtcNow : completed) - started);
     }

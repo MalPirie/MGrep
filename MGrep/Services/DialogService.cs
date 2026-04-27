@@ -1,16 +1,14 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 
 namespace MGrep;
 
-public interface IDialogService
+/// <summary>
+/// Default implementation of <see cref="IDialogService"/>.
+/// Opens VS Code (with fallback to Notepad) and uses Win32 dialogs for file/folder selection.
+/// </summary>
+public class DialogService : IDialogService
 {
-    void OpenEditor(Match match);
-    bool TrySelectFile(out string fileName);
-    bool TrySelectFolder(out string folderName);
-}
-
-public  class DialogService : IDialogService
-{
+    /// <inheritdoc/>
     public void OpenEditor(Match match)
     {
         var pi = new ProcessStartInfo
@@ -27,6 +25,7 @@ public  class DialogService : IDialogService
         }
         catch
         {
+            // VS Code not available — fall back to Notepad.
             pi.WindowStyle = ProcessWindowStyle.Normal;
             pi.FileName = "notepad.exe";
             pi.Arguments = match.FileName;
@@ -34,6 +33,7 @@ public  class DialogService : IDialogService
         }
     }
 
+    /// <inheritdoc/>
     public bool TrySelectFile(out string fileName)
     {
         var dialog = new Microsoft.Win32.SaveFileDialog
@@ -53,6 +53,7 @@ public  class DialogService : IDialogService
         return false;
     }
 
+    /// <inheritdoc/>
     public bool TrySelectFolder(out string folderName)
     {
         var dialog = new Microsoft.Win32.OpenFolderDialog

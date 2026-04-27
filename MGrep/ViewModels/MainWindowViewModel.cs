@@ -9,8 +9,16 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace MGrep;
 
+/// <summary>
+/// View model for <see cref="MainWindow"/>.
+/// Exposes search parameters, result collection, status text, and commands.
+/// Persists user settings via <see cref="Options{T}"/> and delegates
+/// UI interactions to <see cref="IDialogService"/>.
+/// </summary>
 public sealed partial class MainWindowViewModel : ObservableObject
 {
+    // ── Search input properties ───────────────────────────────────────────
+
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(SearchCommand))]
     private string folder = Environment.CurrentDirectory;
@@ -26,18 +34,17 @@ public sealed partial class MainWindowViewModel : ObservableObject
     [ObservableProperty] private string filePatterns = string.Empty;
 
     [ObservableProperty] private List<string> filePatternsHistory = new();
-    
+
+    // ── Search option toggles ─────────────────────────────────────────────
+
     [ObservableProperty] private bool matchCase;
-
     [ObservableProperty] private bool matchWholeWord;
-    
     [ObservableProperty] private bool useRegex;
-
     [ObservableProperty] private bool globbing;
-
     [ObservableProperty] private bool includeSubfolders;
-
     [ObservableProperty] private bool includeBinaryFiles;
+
+    // ── Search state ──────────────────────────────────────────────────────
 
     [ObservableProperty] private bool searching;
 
@@ -45,18 +52,31 @@ public sealed partial class MainWindowViewModel : ObservableObject
 
     [ObservableProperty] private string status = "Ready";
 
+    // ── Theme ─────────────────────────────────────────────────────────────
+
     [ObservableProperty] private bool isDarkMode;
+
+    // ── Dependencies ──────────────────────────────────────────────────────
 
     private readonly Options<SearchOptions> options;
     private readonly IDialogService dialogService;
     private readonly IFileSystem fileSystem;
     private readonly IThemeService? themeService;
 
-    public MainWindowViewModel(Options<SearchOptions> options) : this(options, new DialogService(), new FileSystem(), null)
+    // ── Constructors ──────────────────────────────────────────────────────
+
+    /// <summary>Convenience constructor used in design-time and simple test scenarios.</summary>
+    public MainWindowViewModel(Options<SearchOptions> options)
+        : this(options, new DialogService(), new FileSystem(), null)
     {
     }
 
-    public MainWindowViewModel(Options<SearchOptions> options, IDialogService dialogService, IFileSystem fileSystem, IThemeService? themeService = null)
+    /// <summary>Full constructor used at runtime via <see cref="App"/>.</summary>
+    public MainWindowViewModel(
+        Options<SearchOptions> options,
+        IDialogService dialogService,
+        IFileSystem fileSystem,
+        IThemeService? themeService = null)
     {
         this.options = options;
         this.dialogService = dialogService;
@@ -70,7 +90,9 @@ public sealed partial class MainWindowViewModel : ObservableObject
         Pattern = PatternHistory.FirstOrDefault() ?? string.Empty;
 
         FilePatternsHistory = options.Value.FilePatternsHistory;
-        FilePatterns = options.Value.UsingFilePatterns ? FilePatternsHistory.FirstOrDefault() ?? string.Empty : string.Empty;
+        FilePatterns = options.Value.UsingFilePatterns
+            ? FilePatternsHistory.FirstOrDefault() ?? string.Empty
+            : string.Empty;
 
         MatchCase = options.Value.MatchCase;
         MatchWholeWord = options.Value.MatchWholeWord;
@@ -86,6 +108,8 @@ public sealed partial class MainWindowViewModel : ObservableObject
         }
     }
 
+    // ── Option-changed callbacks — persist each toggle immediately ────────
+
     partial void OnMatchCaseChanged(bool value) => options.Update(o => o.MatchCase = value);
 
     partial void OnMatchWholeWordChanged(bool value) => options.Update(o => o.MatchWholeWord = value);
@@ -95,16 +119,26 @@ public sealed partial class MainWindowViewModel : ObservableObject
     partial void OnGlobbingChanged(bool value)
     {
         options.Update(o => o.Globbing = value);
-        if (value) IncludeSubfolders = false;
+        // Globbing and IncludeSubfolders are mutually exclusive.
+        if (value)
+        {
+            IncludeSubfolders = false;
+        }
     }
 
     partial void OnIncludeSubfoldersChanged(bool value)
     {
         options.Update(o => o.IncludeSubfolders = value);
-        if (value) Globbing = false;
+        // Globbing and IncludeSubfolders are mutually exclusive.
+        if (value)
+        {
+            Globbing = false;
+        }
     }
 
     partial void OnIncludeBinaryFilesChanged(bool value) => options.Update(o => o.IncludeBinaryFiles = value);
+
+    // ── Commands ──────────────────────────────────────────────────────────
 
     [RelayCommand(CanExecute = nameof(CanExport))]
     private void Export()
@@ -170,7 +204,10 @@ public sealed partial class MainWindowViewModel : ObservableObject
 
     private bool CanSearch() => !Searching && SearchCriteriaAreValid();
 
-    private bool SearchCriteriaAreValid() => !string.IsNullOrWhiteSpace(Folder) && !string.IsNullOrWhiteSpace(Pattern);
+    private bool SearchCriteriaAreValid() =>
+        !string.IsNullOrWhiteSpace(Folder) && !string.IsNullOrWhiteSpace(Pattern);
+
+    // ── History management ────────────────────────────────────────────────
 
     private void UpdateHistories()
     {
@@ -244,17 +281,23 @@ public sealed partial class MainWindowViewModel : ObservableObject
         }
     }
 
+    // ── Status formatting ─────────────────────────────────────────────────
+
     private void UpdateStatus(SearchProgress progress)
     {
         Status = progress.State switch
         {
             SearchState.Searching =>
-                $"Searching {progress.FileCount} files, found {progress.MatchCount} matches in {progress.FileMatchCount} files in {Math.Round(progress.Elapsed.TotalSeconds, 0, MidpointRounding.AwayFromZero)} seconds...",
+                $"Searching {progress.FileCount} files, found {progress.MatchCount} matches " +
+                $"in {progress.FileMatchCount} files in " +
+                $"{Math.Round(progress.Elapsed.TotalSeconds, 0, MidpointRounding.AwayFromZero)} seconds...",
             SearchState.Completed =>
-                $"Searched {progress.FileCount} files, found {progress.MatchCount} matches in {progress.FileMatchCount} files in {Math.Round(progress.Elapsed.TotalSeconds, 0, MidpointRounding.AwayFromZero)} seconds.",
+                $"Searched {progress.FileCount} files, found {progress.MatchCount} matches " +
+                $"in {progress.FileMatchCount} files in " +
+                $"{Math.Round(progress.Elapsed.TotalSeconds, 0, MidpointRounding.AwayFromZero)} seconds.",
             SearchState.Cancelled => "Search cancelled",
-            SearchState.Faulted => "Oops",
-            _ => throw new ArgumentOutOfRangeException()
+            SearchState.Faulted   => "Oops",
+            _                     => throw new ArgumentOutOfRangeException()
         };
     }
 }

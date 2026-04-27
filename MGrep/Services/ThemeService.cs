@@ -55,7 +55,9 @@ public sealed class ThemeService : IThemeService
     {
         // Short-circuit if already applied and not the first call (avoids duplicate config writes)
         if (initialized && CurrentTheme == theme)
+        {
             return;
+        }
 
         initialized = true;
         CurrentTheme = theme;
