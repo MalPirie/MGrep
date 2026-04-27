@@ -158,7 +158,7 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Stretch">
                     <ToggleButton IsChecked="{Binding MatchCase}" ToolTip="Match case">
-                        <TextBlock Text="Aa" FontSize="11" FontWeight="SemiBold" />
+                        <TextBlock FontFamily="pack://application:,,,/FluentSystemIcons-Regular.ttf#FluentSystemIcons-Regular" FontSize="14" Text="&#xf7b2;" />
                     </ToggleButton>
                     <ToggleButton IsChecked="{Binding MatchWholeWord}" Margin="4,0,0,0" ToolTip="Match whole word">
                         <TextBlock FontFamily="pack://application:,,,/FluentSystemIcons-Regular.ttf#FluentSystemIcons-Regular" FontSize="14" Text="&#xed68;" />
