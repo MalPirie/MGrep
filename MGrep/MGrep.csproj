@@ -16,6 +16,7 @@
 	<ItemGroup>
 		<Content Include="OldApplicationIcon.ico" />
 		<Resource Include="ApplicationIcon.ico" />
+		<Resource Include="FluentSystemIcons-Regular.ttf" />
 	</ItemGroup>
 
 	<ItemGroup>

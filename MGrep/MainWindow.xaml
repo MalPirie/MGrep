@@ -1,4 +1,4 @@
-﻿<Window x:Class="MGrep.MainWindow"
+<Window x:Class="MGrep.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -28,7 +28,7 @@
         <local:InvertedBoolConverter x:Key="InvertedBoolConverter" />
         <local:FileNameConverter x:Key="FileNameConverter" />
     </Window.Resources>
-        
+
     <DockPanel LastChildFill="True">
 
         <!-- ── Custom title bar ──────────────────────────────────────────
@@ -51,17 +51,17 @@
 
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 
-                <!-- Theme toggle — Segoe MDL2: E793 = Brightness (sun), E708 = QuietHours (moon) -->
+                <!-- Theme toggle — Fluent System Icons: weather_sunny, weather_moon -->
                 <Button Style="{StaticResource CaptionButtonStyle}"
                         Command="{Binding ToggleThemeCommand}"
                         ToolTip="Toggle Light / Dark theme">
-                    <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="12">
+                    <TextBlock FontFamily="pack://application:,,,/FluentSystemIcons-Regular.ttf#FluentSystemIcons-Regular" FontSize="16">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
-                                <Setter Property="Text" Value="&#xE793;" />
+                                <Setter Property="Text" Value="&#xf8a2;" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsDarkMode}" Value="True">
-                                        <Setter Property="Text" Value="&#xE708;" />
+                                        <Setter Property="Text" Value="&#xf87e;" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -72,7 +72,7 @@
                 <!-- Minimize -->
                 <Button Style="{StaticResource CaptionButtonStyle}"
                         Command="{x:Static SystemCommands.MinimizeWindowCommand}">
-                    <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="10" Text="&#xE108;" />
+                    <TextBlock FontFamily="pack://application:,,,/FluentSystemIcons-Regular.ttf#FluentSystemIcons-Regular" FontSize="14" Text="&#xebd1;" />
                 </Button>
 
                 <!-- Maximize / Restore — command and icon switch via WindowState -->
@@ -88,14 +88,14 @@
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
-                    <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="10">
+                    <TextBlock FontFamily="pack://application:,,,/FluentSystemIcons-Regular.ttf#FluentSystemIcons-Regular" FontSize="14">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
-                                <Setter Property="Text" Value="&#xE739;" />
+                                <Setter Property="Text" Value="&#xe7ec;" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding ElementName=Window, Path=WindowState}"
                                                  Value="Maximized">
-                                        <Setter Property="Text" Value="&#xE923;" />
+                                        <Setter Property="Text" Value="&#xf78c;" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -106,7 +106,7 @@
                 <!-- Close -->
                 <Button Style="{StaticResource CaptionCloseButtonStyle}"
                         Command="{x:Static SystemCommands.CloseWindowCommand}">
-                    <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="10" Text="&#xE106;" />
+                    <TextBlock FontFamily="pack://application:,,,/FluentSystemIcons-Regular.ttf#FluentSystemIcons-Regular" FontSize="14" Text="&#xf36a;" />
                 </Button>
 
             </StackPanel>
@@ -126,10 +126,10 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <ComboBox Grid.Column="0" 
+                    <ComboBox Grid.Column="0"
                               IsEditable="True"
-                              ItemsSource="{Binding FolderHistory}"  
-                              Text="{Binding Folder}" 
+                              ItemsSource="{Binding FolderHistory}"
+                              Text="{Binding Folder}"
                               ShouldPreserveUserEnteredPrefix="True" />
                     <Button Grid.Column="1" Content="Browse" Command="{Binding SelectFolderCommand}" Margin="4,0,0,0" />
                 </Grid>
@@ -137,17 +137,17 @@
 
             <StackPanel Grid.Row="1" Orientation="Vertical">
                 <Label>Pattern</Label>
-                <ComboBox IsEditable="True" 
-                          ItemsSource="{Binding PatternHistory}" 
-                          Text="{Binding Pattern}" 
+                <ComboBox IsEditable="True"
+                          ItemsSource="{Binding PatternHistory}"
+                          Text="{Binding Pattern}"
                           ShouldPreserveUserEnteredPrefix="True" />
             </StackPanel>
 
             <StackPanel Grid.Row="2" Orientation="Vertical">
                 <Label>File patterns</Label>
-                <ComboBox IsEditable="True" 
-                          ItemsSource="{Binding FilePatternsHistory}" 
-                          Text="{Binding FilePatterns}" 
+                <ComboBox IsEditable="True"
+                          ItemsSource="{Binding FilePatternsHistory}"
+                          Text="{Binding FilePatterns}"
                           ShouldPreserveUserEnteredPrefix="True" />
             </StackPanel>
 
@@ -156,26 +156,26 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Stretch">
                     <ToggleButton IsChecked="{Binding MatchCase}" ToolTip="Match case">
                         <TextBlock Text="Aa" FontSize="11" FontWeight="SemiBold" />
                     </ToggleButton>
                     <ToggleButton IsChecked="{Binding MatchWholeWord}" Margin="4,0,0,0" ToolTip="Match whole word">
-                        <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="12" Text="&#xE8C1;" />
+                        <TextBlock FontFamily="pack://application:,,,/FluentSystemIcons-Regular.ttf#FluentSystemIcons-Regular" FontSize="14" Text="&#xed68;" />
                     </ToggleButton>
                     <ToggleButton IsChecked="{Binding UseRegex}" Margin="4,0,0,0" ToolTip="Use regular expression">
-                        <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="12" Text="&#xE943;" />
+                        <TextBlock Text=".*" FontSize="11" FontWeight="SemiBold" />
                     </ToggleButton>
                     <ToggleButton IsChecked="{Binding IncludeSubfolders}"
                                   Margin="12,0,0,0" ToolTip="Include subfolders">
-                        <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="12" Text="&#xE838;" />
+                        <TextBlock FontFamily="pack://application:,,,/FluentSystemIcons-Regular.ttf#FluentSystemIcons-Regular" FontSize="14" Text="&#xf42f;" />
                     </ToggleButton>
                     <ToggleButton IsChecked="{Binding Globbing}"
                                   Margin="4,0,0,0" ToolTip="Globbing">
-                        <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="12" Text="&#xE71C;" />
+                        <TextBlock FontFamily="pack://application:,,,/FluentSystemIcons-Regular.ttf#FluentSystemIcons-Regular" FontSize="14" Text="&#xf407;" />
                     </ToggleButton>
                     <ToggleButton IsChecked="{Binding IncludeBinaryFiles}" Margin="12,0,0,0" ToolTip="Include binary files">
-                        <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="12" Text="&#xE8A5;" />
+                        <TextBlock FontFamily="pack://application:,,,/FluentSystemIcons-Regular.ttf#FluentSystemIcons-Regular" FontSize="14" Text="&#xf379;" />
                     </ToggleButton>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
