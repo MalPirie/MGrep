@@ -87,6 +87,86 @@ public class SearcherTests
         progressEvents.Last().State.ShouldBe(SearchState.Cancelled);
     }
 
+    [Fact]
+    public void GetMatchSpans_PlainText_SingleMatch()
+    {
+        var searcher = MakeSearcher("hello");
+        searcher.GetMatchSpans("say hello world").ShouldBe([(4, 5)]);
+    }
+
+    [Fact]
+    public void GetMatchSpans_PlainText_MultipleMatches()
+    {
+        var searcher = MakeSearcher("ab");
+        searcher.GetMatchSpans("ab cd ab").ShouldBe([(0, 2), (6, 2)]);
+    }
+
+    [Fact]
+    public void GetMatchSpans_PlainText_NoMatch()
+    {
+        var searcher = MakeSearcher("xyz");
+        searcher.GetMatchSpans("hello world").ShouldBeEmpty();
+    }
+
+    [Fact]
+    public void GetMatchSpans_CaseInsensitive()
+    {
+        var searcher = MakeSearcher("hello", matchCase: false);
+        searcher.GetMatchSpans("Hello HELLO hello").ShouldBe([(0, 5), (6, 5), (12, 5)]);
+    }
+
+    [Fact]
+    public void GetMatchSpans_CaseSensitive_OnlyMatchesCorrectCase()
+    {
+        var searcher = MakeSearcher("hello", matchCase: true);
+        searcher.GetMatchSpans("Hello HELLO hello").ShouldBe([(12, 5)]);
+    }
+
+    [Fact]
+    public void GetMatchSpans_WholeWord_MatchesWordBoundaries()
+    {
+        var searcher = MakeSearcher("word", matchWholeWord: true);
+        searcher.GetMatchSpans("a word in a crossword puzzle word").ShouldBe([(2, 4), (29, 4)]);
+    }
+
+    [Fact]
+    public void GetMatchSpans_WholeWord_NoMatchWhenEmbedded()
+    {
+        var searcher = MakeSearcher("word", matchWholeWord: true);
+        searcher.GetMatchSpans("crossword").ShouldBeEmpty();
+    }
+
+    [Fact]
+    public void GetMatchSpans_Regex_SingleMatch()
+    {
+        var searcher = MakeSearcher(@"\d+", useRegex: true);
+        searcher.GetMatchSpans("value 42 end").ShouldBe([(6, 2)]);
+    }
+
+    [Fact]
+    public void GetMatchSpans_Regex_MultipleMatches()
+    {
+        var searcher = MakeSearcher(@"\d+", useRegex: true);
+        searcher.GetMatchSpans("1 and 22 and 333").ShouldBe([(0, 1), (6, 2), (13, 3)]);
+    }
+
+    [Fact]
+    public void GetMatchSpans_Regex_NoMatch()
+    {
+        var searcher = MakeSearcher(@"\d+", useRegex: true);
+        searcher.GetMatchSpans("no digits here").ShouldBeEmpty();
+    }
+
+    private static Searcher MakeSearcher(
+        string pattern,
+        bool matchCase = false,
+        bool matchWholeWord = false,
+        bool useRegex = false)
+    {
+        var filter = new Filter(matchCase, matchWholeWord, useRegex, pattern);
+        return new Searcher(false, new MockFileFilter([]), filter);
+    }
+
     private MockFileSystem MakeFileSystem() =>
         new (new Dictionary<string, MockFileData>
         {

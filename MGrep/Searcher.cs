@@ -30,6 +30,12 @@ public sealed class Searcher
         this.filter = filter;
     }
 
+    /// <summary>
+    /// Returns the start index and length of every match within <paramref name="line"/>,
+    /// respecting the same case, whole-word, and regex options used during the search.
+    /// </summary>
+    public (int Start, int Length)[] GetMatchSpans(string line) => filter.GetMatchSpans(line);
+
     public async IAsyncEnumerable<List<Match>> SearchAsync(IProgress<SearchProgress> progress, [EnumeratorCancellation] CancellationToken cancellationToken)
     {
         var counter = new ProgressCounter();
