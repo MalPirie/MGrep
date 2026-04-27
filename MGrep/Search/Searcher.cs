@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Linq;
@@ -57,6 +57,13 @@ public sealed class Searcher
     /// Returns the start index and length of every match within <paramref name="line"/>,
     /// respecting the same case, whole-word, and regex options used during the search.
     /// </summary>
+    /// <remarks>
+    /// At runtime, spans are pre-populated on <see cref="Match.Spans"/> by the search
+    /// pipeline and consumed by <see cref="Behaviors.TextHighlighter"/> — this method is
+    /// not called on the hot path.  It is exposed here as a test-convenience wrapper so
+    /// tests can verify span behaviour through <see cref="Searcher"/> without accessing
+    /// <see cref="Filter"/> directly.
+    /// </remarks>
     public (int Start, int Length)[] GetMatchSpans(string line) => filter.GetMatchSpans(line);
 
     /// <summary>
@@ -183,9 +190,8 @@ public sealed class Searcher
         encoding = Encoding.Default;
 
         var buffer = new byte[1000];
-        var stream = fileSystem.File.OpenRead(path);
+        using var stream = fileSystem.File.OpenRead(path);
         var length = stream.Read(buffer, 0, buffer.Length);
-        stream.Close();
 
         if (buffer[0] == 0xef && buffer[1] == 0xbb && buffer[2] == 0xbf)
         {

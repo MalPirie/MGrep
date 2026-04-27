@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Linq;
@@ -48,7 +48,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
 
     [ObservableProperty] private bool searching;
 
-    [ObservableProperty] private SemiObservableCollection matches = new();
+    [ObservableProperty] private MatchCollection matches = new();
 
     [ObservableProperty] private string status = "Ready";
 
@@ -211,9 +211,9 @@ public sealed partial class MainWindowViewModel : ObservableObject
 
     private void UpdateHistories()
     {
-        UpdateFolderHistory();
-        UpdatePatternHistory();
-        UpdateFilePatternsHistory();
+        UpdateHistory(FolderHistory,       Folder,       nameof(FolderHistory));
+        UpdateHistory(PatternHistory,      Pattern,      nameof(PatternHistory));
+        UpdateHistory(FilePatternsHistory, FilePatterns, nameof(FilePatternsHistory));
 
         options.Update(o =>
         {
@@ -224,77 +224,46 @@ public sealed partial class MainWindowViewModel : ObservableObject
         });
     }
 
-    private void UpdateFilePatternsHistory()
+    /// <summary>
+    /// Moves <paramref name="value"/> to position 0 in <paramref name="history"/>, capping
+    /// the list at 10 entries.  Does nothing if the value is already at position 0.
+    /// </summary>
+    private void UpdateHistory(List<string> history, string value, string propertyName)
     {
-        var index = FilePatternsHistory.IndexOf(FilePatterns);
-        if (index != 0)
+        var index = history.IndexOf(value);
+        if (index == 0)
         {
-            if (index > 0)
-            {
-                FilePatternsHistory.RemoveAt(index);
-            }
-            else if (FilePatternsHistory.Count == 10)
-            {
-                FilePatternsHistory.RemoveAt(FilePatternsHistory.Count - 1);
-            }
-
-            FilePatternsHistory.Insert(0, FilePatterns);
-            OnPropertyChanged(nameof(FilePatternsHistory));
+            return;
         }
-    }
 
-    private void UpdateFolderHistory()
-    {
-        var index = FolderHistory.IndexOf(Folder);
-        if (index != 0)
+        if (index > 0)
         {
-            if (index > 0)
-            {
-                FolderHistory.RemoveAt(index);
-            }
-            else if (FolderHistory.Count == 10)
-            {
-                FolderHistory.RemoveAt(FolderHistory.Count - 1);
-            }
-
-            FolderHistory.Insert(0, Folder);
-            OnPropertyChanged(nameof(FolderHistory));
+            history.RemoveAt(index);
         }
-    }
-
-    private void UpdatePatternHistory()
-    {
-        var index = PatternHistory.IndexOf(Pattern);
-        if (index != 0)
+        else if (history.Count == 10)
         {
-            if (index > 0)
-            {
-                PatternHistory.RemoveAt(index);
-            }
-            else if (PatternHistory.Count == 10)
-            {
-                PatternHistory.RemoveAt(PatternHistory.Count - 1);
-            }
-
-            PatternHistory.Insert(0, Pattern);
-            OnPropertyChanged(nameof(PatternHistory));
+            history.RemoveAt(history.Count - 1);
         }
+
+        history.Insert(0, value);
+        OnPropertyChanged(propertyName);
     }
 
     // ── Status formatting ─────────────────────────────────────────────────
 
     private void UpdateStatus(SearchProgress progress)
     {
+        var errors = progress.ErrorCount > 0 ? $", {progress.ErrorCount} errors" : string.Empty;
+        var elapsed = Math.Round(progress.Elapsed.TotalSeconds, 0, MidpointRounding.AwayFromZero);
+
         Status = progress.State switch
         {
             SearchState.Searching =>
                 $"Searching {progress.FileCount} files, found {progress.MatchCount} matches " +
-                $"in {progress.FileMatchCount} files in " +
-                $"{Math.Round(progress.Elapsed.TotalSeconds, 0, MidpointRounding.AwayFromZero)} seconds...",
+                $"in {progress.FileMatchCount} files in {elapsed} seconds{errors}...",
             SearchState.Completed =>
                 $"Searched {progress.FileCount} files, found {progress.MatchCount} matches " +
-                $"in {progress.FileMatchCount} files in " +
-                $"{Math.Round(progress.Elapsed.TotalSeconds, 0, MidpointRounding.AwayFromZero)} seconds.",
+                $"in {progress.FileMatchCount} files in {elapsed} seconds{errors}.",
             SearchState.Cancelled => "Search cancelled",
             SearchState.Faulted   => "Oops",
             _                     => throw new ArgumentOutOfRangeException()

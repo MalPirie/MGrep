@@ -4,14 +4,14 @@ using Shouldly;
 
 namespace MGrep.Test;
 
-public class SemiObservableCollectionTests 
+public class MatchCollectionTests 
 {
     private readonly List<object> argsList = [];
 
     [Fact]
     public void WhenClearingCollectionThenRaisesResetEvent()
     {
-        var collection = new SemiObservableCollection();
+        var collection = new MatchCollection();
         collection.CollectionChanged += CollectionChangedHandler;
         collection.PropertyChanged += PropertyChangedHandler;
 
@@ -21,7 +21,7 @@ public class SemiObservableCollectionTests
         argsList.OfType<NotifyCollectionChangedEventArgs>().ShouldContain(item =>
             item.Action == NotifyCollectionChangedAction.Reset);
         argsList.OfType<PropertyChangedEventArgs>().ShouldContain(item =>
-            item.PropertyName == nameof(SemiObservableCollection.Count));
+            item.PropertyName == nameof(MatchCollection.Count));
 
         collection.CollectionChanged -= CollectionChangedHandler;
         collection.PropertyChanged -= PropertyChangedHandler;
@@ -30,7 +30,7 @@ public class SemiObservableCollectionTests
     [Fact]
     public void WhenAddingEmptyRangeThenNoEventsAreRaised()
     {
-        var collection = new SemiObservableCollection();
+        var collection = new MatchCollection();
         collection.CollectionChanged += CollectionChangedHandler;
         collection.PropertyChanged += PropertyChangedHandler;
 
@@ -45,7 +45,7 @@ public class SemiObservableCollectionTests
     [Fact]
     public void WhenAddingRangeThenRaisesAddEvent()
     {
-        var collection = new SemiObservableCollection();
+        var collection = new MatchCollection();
         collection.AddRange([
             new Match("file1", 1, "Line 1"),
             new Match("file1", 2, "Line 2"),
@@ -64,7 +64,7 @@ public class SemiObservableCollectionTests
         argsList.OfType<NotifyCollectionChangedEventArgs>().ShouldContain(item => 
             item.Action == NotifyCollectionChangedAction.Add && item.NewItems != null && item.NewItems.Count == 4 &&item.NewStartingIndex == 2);
         argsList.OfType<PropertyChangedEventArgs>().ShouldContain(item =>
-            item.PropertyName == nameof(SemiObservableCollection.Count));
+            item.PropertyName == nameof(MatchCollection.Count));
 
         collection.CollectionChanged -= CollectionChangedHandler;
         collection.PropertyChanged -= PropertyChangedHandler;

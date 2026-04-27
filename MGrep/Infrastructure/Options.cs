@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.IO.Abstractions;
 using System.Text.Json;
@@ -73,16 +73,34 @@ public sealed class Options<T> where T : class, new()
                 fileSystem.Path.GetDirectoryName(fileName)!,
                 fileSystem.Path.GetRandomFileName());
 
+            var movedToTemp = false;
             if (fileSystem.File.Exists(fileName))
             {
                 fileSystem.File.Move(fileName, temporaryPath);
+                movedToTemp = true;
             }
 
-            using var stream = fileSystem.File.OpenWrite(fileName);
-            using var writer = new Utf8JsonWriter(stream, new JsonWriterOptions { Indented = true });
-            documentObject[sectionName] = JsonSerializer.SerializeToNode(sectionObject, serializerOptions);
-            documentObject.WriteTo(writer);
-            fileSystem.File.Delete(temporaryPath);
+            try
+            {
+                using var stream = fileSystem.File.OpenWrite(fileName);
+                using var writer = new Utf8JsonWriter(stream, new JsonWriterOptions { Indented = true });
+                documentObject[sectionName] = JsonSerializer.SerializeToNode(sectionObject, serializerOptions);
+                documentObject.WriteTo(writer);
+            }
+            catch
+            {
+                // Write failed — restore the original file from the temp backup.
+                if (movedToTemp && fileSystem.File.Exists(temporaryPath))
+                {
+                    fileSystem.File.Move(temporaryPath, fileName);
+                }
+                throw;
+            }
+
+            if (movedToTemp)
+            {
+                fileSystem.File.Delete(temporaryPath);
+            }
         }
         catch
         {

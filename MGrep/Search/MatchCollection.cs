@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -16,7 +16,7 @@ namespace MGrep;
 /// Items are always kept sorted by file name then line number.
 /// <see cref="AddRange"/> relies on this invariant — new batches must also be pre-sorted.
 /// </remarks>
-public class SemiObservableCollection : IReadOnlyList<Match>, INotifyCollectionChanged, INotifyPropertyChanged
+public class MatchCollection : IReadOnlyList<Match>, INotifyCollectionChanged, INotifyPropertyChanged
 {
     /// <inheritdoc/>
     public event NotifyCollectionChangedEventHandler? CollectionChanged;

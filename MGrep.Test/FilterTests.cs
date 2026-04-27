@@ -1,4 +1,4 @@
-﻿using Shouldly;
+using Shouldly;
 
 namespace MGrep.Test;
 
@@ -8,7 +8,7 @@ public class FilterTests
     [InlineData("Watch the flow", false)]
     [InlineData("Look at the pattern", true)]
     [InlineData("LOOK AT THE PATTERN", true)]
-    public void Nothing(string line, bool expected)
+    public void PlainSubstringCaseInsensitive(string line, bool expected)
     {
         var filter = new Filter(false, false, false, "pat");
         ActAndAssert(filter, line, expected);

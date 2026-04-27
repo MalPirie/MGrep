@@ -1,4 +1,4 @@
-﻿namespace MGrep.Test;
+namespace MGrep.Test;
 
 internal class MockDialogService : IDialogService
 {

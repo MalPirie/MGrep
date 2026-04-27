@@ -1,4 +1,4 @@
-﻿using Shouldly;
+using Shouldly;
 using System.IO.Abstractions.TestingHelpers;
 using System.Text;
 
