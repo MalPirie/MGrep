@@ -246,7 +246,7 @@
                                 <Condition Property="IsChecked"   Value="False" />
                                 <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Bd" Property="Background"   Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                            <Setter TargetName="Bd" Property="Background"   Value="{DynamicResource SubtleFillColorTertiaryBrush}" />
                             <Setter TargetName="Bd" Property="BorderBrush"  Value="{DynamicResource ControlStrokeColorSecondaryBrush}" />
                         </MultiTrigger>
 
@@ -266,7 +266,7 @@
                                 <Condition Property="IsPressed"   Value="False" />
                             </MultiTrigger.Conditions>
                             <Setter Property="Foreground"                        Value="{DynamicResource BrushAccent}" />
-                            <Setter TargetName="Bd" Property="Background"        Value="{DynamicResource BrushAccentSubtle}" />
+                            <Setter TargetName="Bd" Property="Background"        Value="{DynamicResource BrushToggleCheckedHoverBackground}" />
                             <Setter TargetName="Bd" Property="BorderBrush"       Value="Transparent" />
                         </MultiTrigger>
 

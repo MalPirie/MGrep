@@ -150,4 +150,10 @@
     <SolidColorBrush x:Key="BrushMatchHighlightBackground" Color="{StaticResource MillimanHighlightBlue}" />
     <SolidColorBrush x:Key="BrushMatchHighlightForeground" Color="{StaticResource MillimanOcean}" />
 
+    <!-- ── Toggle button ─────────────────────────────────────────────── -->
+    <!-- Checked hover: same tint as checked (border is transparent so
+         only the background changes; in light the fill already provides
+         enough affordance) -->
+    <SolidColorBrush x:Key="BrushToggleCheckedHoverBackground" Color="{StaticResource MillimanHighlightBlue}" />
+
 </ResourceDictionary>

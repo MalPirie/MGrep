@@ -149,4 +149,9 @@
     <SolidColorBrush x:Key="BrushMatchHighlightBackground" Color="{StaticResource MillimanObsidianBorder}" />
     <SolidColorBrush x:Key="BrushMatchHighlightForeground" Color="{StaticResource MillimanSky}" />
 
+    <!-- ── Toggle button ─────────────────────────────────────────────── -->
+    <!-- Checked hover: darker than ObsidianLight (#2E3C4A) to give
+         visible hover feedback on dark surface -->
+    <SolidColorBrush x:Key="BrushToggleCheckedHoverBackground" Color="{StaticResource MillimanObsidian}" />
+
 </ResourceDictionary>
