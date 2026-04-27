@@ -71,6 +71,9 @@
     <!-- Subtle blue tint — selection highlight, hovered table row          -->
     <Color x:Key="MillimanHighlightBlue">#E5F0FF</Color>
 
+    <!-- Deeper blue tint — toggle button checked-hover (20% Ocean tint)   -->
+    <Color x:Key="MillimanHighlightBlueDark">#CCE4FF</Color>
+
     <!--
     ── DARK-THEME LAYERING ─────────────────────────────────────────────────
     Tonal variations derived from Obsidian (#222B36) for dark-mode surface
